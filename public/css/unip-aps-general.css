@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+/* ========== Break points responsive ============ */
 * {
   margin: 0;
   padding: 0;
@@ -23,7 +24,21 @@ canvas {
 }
 
 .screen h1 {
-  font-size: 2rem;
+  font-size: 1.4rem;
+}
+@media only screen and (min-width: 1366px) {
+  .screen h1 {
+    font-size: 2.3rem;
+  }
+}
+
+.screen h2 {
+  font-size: 0.8rem;
+}
+@media only screen and (min-width: 1366px) {
+  .screen h2 {
+    font-size: 1.4rem;
+  }
 }
 
 .screen span {
@@ -34,8 +49,24 @@ canvas {
   text-decoration: underline;
 }
 
+.recyclebit-logo {
+  max-width: 210px;
+  width: auto;
+  height: auto;
+}
+
 .start-screen > div {
-  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.start-screen > div h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+.start-screen > div h2 {
+  margin-top: 10px;
 }
 
 .button-play,

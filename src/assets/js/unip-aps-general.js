@@ -76,6 +76,11 @@ const Methods = {
       }
     });
 
+    addEventListener("resize", (event) => {
+      El.canvas.width = innerWidth;
+      El.canvas.height = innerHeight;
+    });
+
     El.buttonPlay.addEventListener("click", () => {
       El.startScreen.remove();
       El.scoreUi.style.display = "block";

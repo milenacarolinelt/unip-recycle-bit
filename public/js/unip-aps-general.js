@@ -662,6 +662,11 @@ var Methods = {
       }
     });
 
+    addEventListener("resize", function (event) {
+      El.canvas.width = innerWidth;
+      El.canvas.height = innerHeight;
+    });
+
     El.buttonPlay.addEventListener("click", function () {
       El.startScreen.remove();
       El.scoreUi.style.display = "block";
