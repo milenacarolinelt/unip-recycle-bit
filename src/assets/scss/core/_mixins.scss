@@ -1,0 +1,57 @@
+/* ========== Break points responsive ============ */
+
+@mixin breakpoint($point, $value: 0) {
+  //CELULARES MUITO PEQUENOS
+  @if $point == smallmobile {
+    @media only screen and (min-width: 100px) and (max-width: 413px) {
+      @content;
+    }
+  // APENAS CELULARES MEDIOS E GRANDES
+  } @else if $point == onlymobile {
+    @media only screen and (min-width: 414px) and (max-width: 767px) {
+      @content;
+    }
+  //PEGA DA MENOR RESOLUÇÃO DE CELULAR ATÉ O MAIOR TABLET
+  } @else if $point == mobile {
+    @media only screen and (min-width: 100px) and (max-width: 1023px) {
+      @content;
+    }
+  // TODOS OS TABLETS
+  } @else if $point == tablet {
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      @content;
+    }
+  //DESKTOPS MUITO PEQUENOS
+  } @else if $point == smalldesktop {
+    @media only screen and (min-width: 1024px) and (max-width: 1365px){
+      @content;
+    }
+  //TODOS OS TAMANHOS DE DESKTOP, DESDE O MENOR
+  } @else if $point == fromtablet {
+    @media only screen and (min-width: 768px) {
+      @content;
+    }
+  } @else if $point == desktop {
+    @media only screen and (min-width: 1024px) {
+      @content;
+    }
+  } @else if $point == mediumdesktop {
+    @media only screen and (min-width: 1366px) {
+      @content;
+    }
+  } @else if $point == bigdesktop {
+    @media only screen and (min-width: 1920px) {
+      @content;
+    }
+  } @else {
+    @media only screen and ($point: $value) {
+      @content;
+    }
+  }
+}
+
+@mixin between-breakpoints($min, $max) {
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
