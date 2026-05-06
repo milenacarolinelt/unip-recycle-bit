@@ -598,6 +598,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var El = {
   canvas: document.querySelector("canvas"),
   startScreen: document.querySelector(".start-screen"),
+  accessScreen: document.querySelector(".access-screen"),
+  registerScreen: document.querySelector(".register-screen"),
   gameOverScreen: document.querySelector(".game-over"),
   scoreUi: document.querySelector(".score-ui"),
   scoreElement: document.querySelector(".score-ui .score > span"),
@@ -609,6 +611,8 @@ var El = {
 
 var Methods = {
   init: function init() {
+    El.startScreen.remove();
+    El.accessScreen.remove();
     El.gameOverScreen.remove();
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;

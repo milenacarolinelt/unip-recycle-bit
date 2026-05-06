@@ -54,6 +54,8 @@ canvas {
   height: auto;
 }
 
+.access-screen > div,
+.register-screen > div,
 .start-screen > div {
   display: flex;
   align-items: center;
@@ -71,7 +73,9 @@ canvas {
 }
 
 .button-play,
-.button-restart {
+.button-restart,
+#register-form-button,
+#access-form-button {
   border: none;
   padding: 12px 20px;
   border-radius: 5px;
@@ -83,8 +87,28 @@ canvas {
 }
 
 .button-play:hover,
-.button-restart:hover {
+.button-restart:hover,
+#register-form-button:hover,
+#access-form-button:hover {
   background-color: #fff;
+}
+
+#redirect-register-button,
+#redirect-access-button {
+  border: none;
+  background-color: transparent;
+  color: #ddd;
+  display: block;
+  margin: 20px auto 0;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-transform: lowercase;
+}
+
+#redirect-register-button:hover,
+#redirect-access-button:hover {
+  color: #fff;
 }
 
 .game-over {
@@ -110,6 +134,34 @@ canvas {
   justify-content: space-between;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.form {
+  .form_container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 15px;
+  }
+
+  label {
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+    margin: 0 0 5px;
+    padding-left: 5px;
+  }
+
+  input {
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #fff;
+    outline: none;
+    // border: 1px solid #ddd;
+  }
+
+  button {
+    display: block;
+    margin: 10px auto;
+  }
 }
 
 @keyframes zoom {
