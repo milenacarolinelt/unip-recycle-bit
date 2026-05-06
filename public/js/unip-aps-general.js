@@ -456,6 +456,7 @@ var SoundEffects = function () {
 
         this.explosionSound = new Audio("/audios/explosion.mp3");
         this.nextLevelSound = new Audio("/audios/next_level.mp3");
+        this.gameStartSound = new Audio("/audios/game_start.mp3");
 
         this.currentShootSound = 0;
         this.currentHitSound = 0;
@@ -488,6 +489,11 @@ var SoundEffects = function () {
             this.nextLevelSound.play();
         }
     }, {
+        key: "playGameStartSound",
+        value: function playGameStartSound() {
+            this.gameStartSound.play();
+        }
+    }, {
         key: "adjustVolumes",
         value: function adjustVolumes() {
             this.hitSounds.forEach(function (sound) {
@@ -498,6 +504,7 @@ var SoundEffects = function () {
             });
             this.explosionSound.volume = 0.2;
             this.nextLevelSound.volume = 0.4;
+            this.gameStartSound.volume = 0.4;
         }
     }]);
 
@@ -605,15 +612,21 @@ var El = {
   scoreElement: document.querySelector(".score-ui .score > span"),
   levelElement: document.querySelector(".score-ui .level > span"),
   highElement: document.querySelector(".score-ui .high > span"),
-  buttonPlay: document.querySelector(".button-play"),
-  buttonRestart: document.querySelector(".button-restart")
+  buttonPlay: document.querySelector(".button-play-game"),
+  buttonMyUser: document.querySelector(".button-my-user"),
+  buttonInitBattle: document.querySelector(".button-init-battle"),
+  buttonConfig: document.querySelector(".button-configurations"),
+  buttonRestart: document.querySelector(".button-restart"),
+  buttonRedirectRegister: document.querySelector("#redirect-register-button"),
+  buttonRedirectAccess: document.querySelector("#redirect-access-button"),
+  buttonBackMenu: document.querySelectorAll(".back-menu")
 };
 
 var Methods = {
   init: function init() {
-    El.startScreen.remove();
-    El.accessScreen.remove();
-    El.gameOverScreen.remove();
+    El.accessScreen.classList.add('hide');
+    El.registerScreen.classList.add('hide');
+    El.gameOverScreen.classList.add('hide');
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;
     El.canvas.height = innerHeight;
@@ -672,10 +685,11 @@ var Methods = {
     });
 
     El.buttonPlay.addEventListener("click", function () {
-      El.startScreen.remove();
+      El.startScreen.classList.add('hide');
       El.scoreUi.style.display = "block";
       globalThis.currentState = _constants.GameState.PLAYING;
 
+      globalThis.soundEffects.playGameStartSound();
       setInterval(function () {
         var invader = globalThis.grid.getRandomInvader();
 
@@ -683,6 +697,39 @@ var Methods = {
           invader.shoot(globalThis.invadersProjectiles);
         }
       }, 1000);
+    });
+
+    El.buttonConfig.addEventListener("click", function () {
+      El.startScreen.classList.add('hide');
+    });
+
+    El.buttonInitBattle.addEventListener("click", function () {
+      El.startScreen.classList.add('hide');
+    });
+
+    El.buttonMyUser.addEventListener("click", function () {
+      El.startScreen.classList.add('hide');
+      El.accessScreen.classList.remove('hide');
+    });
+
+    El.buttonRedirectRegister.addEventListener("click", function () {
+      El.startScreen.classList.add('hide');
+      El.accessScreen.classList.add('hide');
+      El.registerScreen.classList.remove('hide');
+    });
+
+    El.buttonRedirectAccess.addEventListener("click", function () {
+      El.startScreen.classList.add('hide');
+      El.registerScreen.classList.add('hide');
+      El.accessScreen.classList.remove('hide');
+    });
+
+    [].concat(_toConsumableArray(El.buttonBackMenu)).forEach(function (backButton) {
+      backButton.addEventListener("click", function () {
+        El.startScreen.classList.remove('hide');
+        El.registerScreen.classList.add('hide');
+        El.accessScreen.classList.add('hide');
+      });
     });
 
     El.buttonRestart.addEventListener("click", Methods.restartGame);
@@ -704,8 +751,7 @@ var Methods = {
     var obstacle1 = new _Obstacle2.default({ x: x - offset, y: y }, 100, 20, color);
     var obstacle2 = new _Obstacle2.default({ x: x + offset, y: y }, 100, 20, color);
 
-    globalThis.obstacles.push(obstacle1);
-    globalThis.obstacles.push(obstacle2);
+    globalThis.obstacles.push(obstacle1, obstacle2);
   },
   incrementScore: function incrementScore(value) {
     globalThis.gameData.score += value;
@@ -802,7 +848,7 @@ var Methods = {
     });
   },
   showGameOverScreen: function showGameOverScreen() {
-    document.body.append(El.gameOverScreen);
+    El.gameOverScreen.classList.remove("hide");
     El.gameOverScreen.classList.add("zoom-animation");
   },
   gameOver: function gameOver() {
@@ -962,7 +1008,7 @@ var Methods = {
     globalThis.gameData.score = 0;
     globalThis.gameData.level = 0;
 
-    El.gameOverScreen.remove();
+    El.gameOverScreen.classList.add('hide');
   }
 };
 

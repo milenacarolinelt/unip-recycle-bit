@@ -18,6 +18,7 @@ class SoundEffects {
 
         this.explosionSound = new Audio("/audios/explosion.mp3");
         this.nextLevelSound = new Audio("/audios/next_level.mp3");
+        this.gameStartSound = new Audio("/audios/game_start.mp3");
 
         this.currentShootSound = 0;
         this.currentHitSound = 0;
@@ -46,11 +47,16 @@ class SoundEffects {
         this.nextLevelSound.play();
     }
 
+    playGameStartSound() {
+        this.gameStartSound.play();
+    }
+
     adjustVolumes() {
         this.hitSounds.forEach((sound) => (sound.volume = 0.2));
         this.shootSounds.forEach((sound) => (sound.volume = 0.5));
         this.explosionSound.volume = 0.2;
         this.nextLevelSound.volume = 0.4;
+        this.gameStartSound.volume = 0.4;
     }
 }
 

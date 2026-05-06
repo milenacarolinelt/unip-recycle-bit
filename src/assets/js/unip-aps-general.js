@@ -16,15 +16,21 @@ const El = {
   scoreElement: document.querySelector(".score-ui .score > span"),
   levelElement: document.querySelector(".score-ui .level > span"),
   highElement: document.querySelector(".score-ui .high > span"),
-  buttonPlay: document.querySelector(".button-play"),
+  buttonPlay: document.querySelector(".button-play-game"),
+  buttonMyUser: document.querySelector(".button-my-user"),
+  buttonInitBattle: document.querySelector(".button-init-battle"),
+  buttonConfig: document.querySelector(".button-configurations"),
   buttonRestart: document.querySelector(".button-restart"),
+  buttonRedirectRegister: document.querySelector("#redirect-register-button"),
+  buttonRedirectAccess: document.querySelector("#redirect-access-button"),
+  buttonBackMenu: document.querySelectorAll(".back-menu"),
 };
 
 const Methods = {
   init() {
-    El.startScreen.remove();
-    El.accessScreen.remove();
-    El.gameOverScreen.remove();
+    El.accessScreen.classList.add('hide');
+    El.registerScreen.classList.add('hide');
+    El.gameOverScreen.classList.add('hide');
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;
     El.canvas.height = innerHeight;
@@ -86,10 +92,11 @@ const Methods = {
     });
 
     El.buttonPlay.addEventListener("click", () => {
-      El.startScreen.remove();
+      El.startScreen.classList.add('hide');
       El.scoreUi.style.display = "block";
       globalThis.currentState = GameState.PLAYING;
 
+      globalThis.soundEffects.playGameStartSound();
       setInterval(() => {
         const invader = globalThis.grid.getRandomInvader();
 
@@ -97,6 +104,39 @@ const Methods = {
           invader.shoot(globalThis.invadersProjectiles);
         }
       }, 1000);
+    });
+
+    El.buttonConfig.addEventListener("click", () => {
+      El.startScreen.classList.add('hide');
+    });
+
+    El.buttonInitBattle.addEventListener("click", () => {
+      El.startScreen.classList.add('hide');
+    });
+
+    El.buttonMyUser.addEventListener("click", () => {
+      El.startScreen.classList.add('hide');
+      El.accessScreen.classList.remove('hide');
+    });
+
+    El.buttonRedirectRegister.addEventListener("click", () => {
+      El.startScreen.classList.add('hide');
+      El.accessScreen.classList.add('hide');
+      El.registerScreen.classList.remove('hide');
+    });
+
+    El.buttonRedirectAccess.addEventListener("click", () => {
+      El.startScreen.classList.add('hide');
+      El.registerScreen.classList.add('hide');
+      El.accessScreen.classList.remove('hide');
+    });
+
+    [...El.buttonBackMenu].forEach(backButton => {
+      backButton.addEventListener("click", () => {
+        El.startScreen.classList.remove('hide');
+        El.registerScreen.classList.add('hide');
+        El.accessScreen.classList.add('hide');
+      });
     });
 
     El.buttonRestart.addEventListener("click", Methods.restartGame);
@@ -120,8 +160,7 @@ const Methods = {
     const obstacle1 = new Obstacle({ x: x - offset, y }, 100, 20, color);
     const obstacle2 = new Obstacle({ x: x + offset, y }, 100, 20, color);
 
-    globalThis.obstacles.push(obstacle1);
-    globalThis.obstacles.push(obstacle2);
+    globalThis.obstacles.push(obstacle1, obstacle2);
   },
 
   incrementScore(value) {
@@ -240,7 +279,7 @@ const Methods = {
   },
 
   showGameOverScreen() {
-    document.body.append(El.gameOverScreen);
+    El.gameOverScreen.classList.remove("hide");
     El.gameOverScreen.classList.add("zoom-animation");
   },
 
@@ -435,7 +474,7 @@ const Methods = {
     globalThis.gameData.score = 0;
     globalThis.gameData.level = 0;
 
-    El.gameOverScreen.remove();
+    El.gameOverScreen.classList.add('hide');
   },
 };
 

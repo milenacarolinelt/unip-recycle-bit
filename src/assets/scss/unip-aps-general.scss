@@ -54,6 +54,14 @@ canvas {
   height: auto;
 }
 
+.start-screen {
+  button {
+    width: 320px;
+    max-width: 100%;
+  }
+}
+
+
 .access-screen > div,
 .register-screen > div,
 .start-screen > div {
@@ -72,7 +80,37 @@ canvas {
   }
 }
 
-.button-play,
+.form {
+  .form_container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 15px;
+  }
+
+  label {
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+    margin: 0 0 5px;
+    padding-left: 5px;
+  }
+
+  input {
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #fff;
+    outline: none;
+  }
+
+  button {
+    display: block;
+    margin: 10px auto;
+  }
+}
+
+.button-play-game,
+.button-my-user,
+.button-init-battle,
+.button-configurations,
 .button-restart,
 #register-form-button,
 #access-form-button {
@@ -83,10 +121,14 @@ canvas {
   display: block;
   margin: 20px auto 0;
   font-size: 1rem;
+  line-height: 1.3rem;
   cursor: pointer;
 }
 
-.button-play:hover,
+.button-play-game:hover,
+.button-my-user:hover,
+.button-init-battle:hover,
+.button-configurations:hover,
 .button-restart:hover,
 #register-form-button:hover,
 #access-form-button:hover {
@@ -94,12 +136,13 @@ canvas {
 }
 
 #redirect-register-button,
-#redirect-access-button {
+#redirect-access-button,
+.redirect-button {
   border: none;
   background-color: transparent;
   color: #ddd;
   display: block;
-  margin: 20px auto 0;
+  margin: 20px auto 20px;
   font-size: 0.8rem;
   cursor: pointer;
   text-decoration: underline;
@@ -107,7 +150,8 @@ canvas {
 }
 
 #redirect-register-button:hover,
-#redirect-access-button:hover {
+#redirect-access-button:hover,
+.redirect-button:hover {
   color: #fff;
 }
 
@@ -136,32 +180,8 @@ canvas {
   margin: 0 auto;
 }
 
-.form {
-  .form_container {
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 15px;
-  }
-
-  label {
-    font-size: 0.7rem;
-    line-height: 0.7rem;
-    margin: 0 0 5px;
-    padding-left: 5px;
-  }
-
-  input {
-    padding: 8px;
-    border-radius: 5px;
-    background-color: #fff;
-    outline: none;
-    // border: 1px solid #ddd;
-  }
-
-  button {
-    display: block;
-    margin: 10px auto;
-  }
+.hide {
+  display: none;
 }
 
 @keyframes zoom {
