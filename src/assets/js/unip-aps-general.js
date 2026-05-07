@@ -11,6 +11,8 @@ const El = {
   startScreen: document.querySelector(".start-screen"),
   accessScreen: document.querySelector(".access-screen"),
   registerScreen: document.querySelector(".register-screen"),
+  configScreen: document.querySelector(".config-screen"),
+  battleScreen: document.querySelector(".battle-screen"),
   gameOverScreen: document.querySelector(".game-over"),
   scoreUi: document.querySelector(".score-ui"),
   scoreElement: document.querySelector(".score-ui .score > span"),
@@ -31,6 +33,8 @@ const Methods = {
     El.accessScreen.classList.add('hide');
     El.registerScreen.classList.add('hide');
     El.gameOverScreen.classList.add('hide');
+    El.configScreen.classList.add('hide');
+    El.battleScreen.classList.add('hide');
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;
     El.canvas.height = innerHeight;
@@ -104,14 +108,17 @@ const Methods = {
           invader.shoot(globalThis.invadersProjectiles);
         }
       }, 1000);
+      El.canvas.classList.add('game-start');
     });
 
     El.buttonConfig.addEventListener("click", () => {
       El.startScreen.classList.add('hide');
+      El.configScreen.classList.remove('hide');
     });
 
     El.buttonInitBattle.addEventListener("click", () => {
       El.startScreen.classList.add('hide');
+      El.battleScreen.classList.remove('hide');
     });
 
     El.buttonMyUser.addEventListener("click", () => {
@@ -135,6 +142,7 @@ const Methods = {
       backButton.addEventListener("click", () => {
         El.startScreen.classList.remove('hide');
         El.registerScreen.classList.add('hide');
+        El.battleScreen.classList.add('hide');
         El.accessScreen.classList.add('hide');
       });
     });
@@ -209,6 +217,14 @@ const Methods = {
 
   drawObstacles() {
     globalThis.obstacles.forEach((obstacle) => obstacle.draw(globalThis.ctx));
+  },
+
+  clearStars() {
+    globalThis.stars.forEach((star, i) => {
+      if (star.opacity <= 0) {
+        globalThis.stars.splice(i, 1);
+      }
+    });
   },
 
   clearProjectiles() {

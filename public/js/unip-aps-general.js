@@ -607,6 +607,8 @@ var El = {
   startScreen: document.querySelector(".start-screen"),
   accessScreen: document.querySelector(".access-screen"),
   registerScreen: document.querySelector(".register-screen"),
+  configScreen: document.querySelector(".config-screen"),
+  battleScreen: document.querySelector(".battle-screen"),
   gameOverScreen: document.querySelector(".game-over"),
   scoreUi: document.querySelector(".score-ui"),
   scoreElement: document.querySelector(".score-ui .score > span"),
@@ -627,6 +629,8 @@ var Methods = {
     El.accessScreen.classList.add('hide');
     El.registerScreen.classList.add('hide');
     El.gameOverScreen.classList.add('hide');
+    El.configScreen.classList.add('hide');
+    El.battleScreen.classList.add('hide');
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;
     El.canvas.height = innerHeight;
@@ -697,14 +701,17 @@ var Methods = {
           invader.shoot(globalThis.invadersProjectiles);
         }
       }, 1000);
+      El.canvas.classList.add('game-start');
     });
 
     El.buttonConfig.addEventListener("click", function () {
       El.startScreen.classList.add('hide');
+      El.configScreen.classList.remove('hide');
     });
 
     El.buttonInitBattle.addEventListener("click", function () {
       El.startScreen.classList.add('hide');
+      El.battleScreen.classList.remove('hide');
     });
 
     El.buttonMyUser.addEventListener("click", function () {
@@ -728,6 +735,7 @@ var Methods = {
       backButton.addEventListener("click", function () {
         El.startScreen.classList.remove('hide');
         El.registerScreen.classList.add('hide');
+        El.battleScreen.classList.add('hide');
         El.accessScreen.classList.add('hide');
       });
     });
@@ -791,6 +799,13 @@ var Methods = {
   drawObstacles: function drawObstacles() {
     globalThis.obstacles.forEach(function (obstacle) {
       return obstacle.draw(globalThis.ctx);
+    });
+  },
+  clearStars: function clearStars() {
+    globalThis.stars.forEach(function (star, i) {
+      if (star.opacity <= 0) {
+        globalThis.stars.splice(i, 1);
+      }
     });
   },
   clearProjectiles: function clearProjectiles() {
