@@ -156,7 +156,7 @@ const Methods = {
   showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
     El.levelElement.textContent = globalThis.gameData.level;
-    El.highElement.textContent = globalThis.gameData.high;
+    // El.highElement.textContent = globalThis.gameData.high;
   },
 
   initObstacles() {
@@ -376,7 +376,7 @@ const Methods = {
       if (
         invader.position.x >= globalThis.player.position.x &&
         invader.position.x <=
-          globalThis.player.position.x + globalThis.player.width &&
+        globalThis.player.position.x + globalThis.player.width &&
         invader.position.y >= globalThis.player.position.y
       ) {
         Methods.gameOver();
@@ -446,7 +446,7 @@ const Methods = {
       if (
         globalThis.keys.right &&
         globalThis.player.position.x <=
-          El.canvas.width - globalThis.player.width
+        El.canvas.width - globalThis.player.width
       ) {
         globalThis.player.moveRight();
         globalThis.ctx.rotate(0.15);

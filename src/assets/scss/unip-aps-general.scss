@@ -12,7 +12,7 @@ main {
   background-image: url('/images/green_forest.gif');
   background-repeat: no-repeat;
   background-size: cover;
-    background-position: bottom right;
+  background-position: bottom right;
 }
 
 canvas {
@@ -67,6 +67,10 @@ canvas {
   max-width: 210px;
   width: auto;
   height: auto;
+
+  @media only screen and (max-height: 600px) {
+    max-width: 170px;
+  }
 }
 
 .start-screen {
@@ -76,9 +80,9 @@ canvas {
   }
 }
 
-.access-screen > div,
-.register-screen > div,
-.start-screen > div {
+.access-screen>div,
+.register-screen>div,
+.start-screen>div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,6 +95,10 @@ canvas {
 
   h2 {
     margin: 10px 0 30px;
+
+    @media only screen and (max-height: 600px) {
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -243,11 +251,10 @@ canvas {
           opacity: 0;
         }
 
-        &:hover {
-        }
+        &:hover {}
       }
 
-      input:checked + label span:after {
+      input:checked+label span:after {
         opacity: 1;
       }
     }
@@ -298,6 +305,12 @@ canvas {
   font-size: 1rem;
   line-height: 1.3rem;
   cursor: pointer;
+
+  @media only screen and (max-height: 600px) {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    line-height: 1.1rem;
+  }
 }
 
 .button-play-game:hover,
@@ -355,7 +368,7 @@ canvas {
   display: none;
 }
 
-.score-ui > div {
+.score-ui>div {
   display: flex;
   justify-content: space-between;
   max-width: 600px;
@@ -390,14 +403,17 @@ canvas {
     top: 0px;
     left: 20px;
   }
+
   #block_02 {
     top: 0px;
     left: 30px;
   }
+
   #block_03 {
     top: 0px;
     left: 40px;
   }
+
   #block_04 {
     top: 0px;
     left: 50px;
@@ -412,14 +428,17 @@ canvas {
     top: 20px;
     left: 70px;
   }
+
   #block_06 {
     top: 30px;
     left: 70px;
   }
+
   #block_07 {
     top: 40px;
     left: 70px;
   }
+
   #block_08 {
     top: 50px;
     left: 70px;
@@ -434,14 +453,17 @@ canvas {
     top: 70px;
     left: 50px;
   }
+
   #block_10 {
     top: 70px;
     left: 40px;
   }
+
   #block_11 {
     top: 70px;
     left: 30px;
   }
+
   #block_12 {
     top: 70px;
     left: 20px;
@@ -456,14 +478,17 @@ canvas {
     top: 20px;
     left: 0px;
   }
+
   #block_14 {
     top: 30px;
     left: 0px;
   }
+
   #block_15 {
     top: 40px;
     left: 0px;
   }
+
   #block_16 {
     top: 50px;
     left: 0px;
@@ -500,15 +525,19 @@ canvas {
   0% {
     transform: rotate(0deg);
   }
+
   25% {
     transform: rotate(90deg);
   }
+
   50% {
     transform: rotate(180deg);
   }
+
   75% {
     transform: rotate(270deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

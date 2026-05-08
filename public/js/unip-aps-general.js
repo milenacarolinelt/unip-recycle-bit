@@ -748,7 +748,7 @@ var Methods = {
   showGameData: function showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
     El.levelElement.textContent = globalThis.gameData.level;
-    El.highElement.textContent = globalThis.gameData.high;
+    // El.highElement.textContent = globalThis.gameData.high;
   },
   initObstacles: function initObstacles() {
     var x = El.canvas.width / 2 - 50;

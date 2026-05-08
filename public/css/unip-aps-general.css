@@ -68,6 +68,11 @@ canvas.game-start {
   width: auto;
   height: auto;
 }
+@media only screen and (max-height: 600px) {
+  .recyclebit-logo {
+    max-width: 170px;
+  }
+}
 
 .start-screen button {
   width: 320px;
@@ -92,6 +97,13 @@ canvas.game-start {
 .register-screen > div h2,
 .start-screen > div h2 {
   margin: 10px 0 30px;
+}
+@media only screen and (max-height: 600px) {
+  .access-screen > div h2,
+  .register-screen > div h2,
+  .start-screen > div h2 {
+    margin-bottom: 10px;
+  }
 }
 
 .battle-screen h1 {
@@ -264,6 +276,20 @@ canvas.game-start {
   font-size: 1rem;
   line-height: 1.3rem;
   cursor: pointer;
+}
+@media only screen and (max-height: 600px) {
+  .button-play-game,
+  .button-my-user,
+  .button-init-battle,
+  .button-configurations,
+  .button-restart,
+  .button,
+  #register-form-button,
+  #access-form-button {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    line-height: 1.1rem;
+  }
 }
 
 .button-play-game:hover,
