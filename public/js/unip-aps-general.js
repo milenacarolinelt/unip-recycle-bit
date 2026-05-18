@@ -319,9 +319,9 @@ var Player = function () {
         _classCallCheck(this, Player);
 
         this.alive = true;
-        this.width = 48 * 2;
-        this.height = 48 * 2;
-        this.velocity = 6;
+        this.width = 34 * 2;
+        this.height = 34 * 2;
+        this.velocity = 5;
 
         this.position = {
             x: canvasWidth / 2 - this.width / 2,
@@ -643,6 +643,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var El = {
   canvas: document.querySelector("canvas"),
+  timer: document.querySelector("#score-timer"),
   gameScreen: document.querySelector(".game-screen"),
   startScreen: document.querySelector(".start-screen"),
   accessScreen: document.querySelector(".access-screen"),
@@ -661,7 +662,9 @@ var El = {
   buttonRestart: document.querySelector(".button-restart"),
   buttonRedirectRegister: document.querySelector("#redirect-register-button"),
   buttonRedirectAccess: document.querySelector("#redirect-access-button"),
-  buttonBackMenu: document.querySelectorAll(".back-menu")
+  buttonBackMenu: document.querySelectorAll(".back-menu"),
+  buttonLeft: document.querySelector("#arrow-left"),
+  buttonRight: document.querySelector("#arrow-right")
 };
 
 var Methods = {
@@ -704,25 +707,6 @@ var Methods = {
         released: true
       }
     };
-
-    addEventListener("keydown", function (event) {
-      var key = event.key.toLowerCase();
-
-      if (key === "a") globalThis.keys.left = true;
-      if (key === "d") globalThis.keys.right = true;
-      if (key === "enter") globalThis.keys.shoot.pressed = true;
-    });
-
-    addEventListener("keyup", function (event) {
-      var key = event.key.toLowerCase();
-
-      if (key === "a") globalThis.keys.left = false;
-      if (key === "d") globalThis.keys.right = false;
-      if (key === "enter") {
-        globalThis.keys.shoot.pressed = false;
-        globalThis.keys.shoot.released = true;
-      }
-    });
 
     addEventListener("resize", function (event) {
       El.canvas.width = innerWidth;
@@ -783,9 +767,79 @@ var Methods = {
     });
 
     El.buttonRestart.addEventListener("click", Methods.restartGame);
-
+    Methods.controlActions();
     Methods.generateStars();
     Methods.gameLoop();
+  },
+  controlActions: function controlActions() {
+    addEventListener("keydown", function (event) {
+      if (!event.key) return;
+      var key = event.key.toLowerCase();
+
+      if (key === "a") globalThis.keys.left = true;
+      if (key === "d") globalThis.keys.right = true;
+      if (key === "enter") globalThis.keys.shoot.pressed = true;
+    });
+
+    addEventListener("keyup", function (event) {
+      if (!event.key) return;
+      var key = event.key.toLowerCase();
+
+      if (key === "a") globalThis.keys.left = false;
+      if (key === "d") globalThis.keys.right = false;
+      if (key === "enter") {
+        globalThis.keys.shoot.pressed = false;
+        globalThis.keys.shoot.released = true;
+      }
+    });
+
+    El.buttonLeft.addEventListener("click", function () {
+      globalThis.keys.left = true;
+
+      setTimeout(function () {
+        globalThis.keys.left = false;
+      }, 100);
+    });
+
+    El.buttonLeft.addEventListener('pointerdown', function () {
+      globalThis.keys.left = true;
+    });
+
+    El.buttonLeft.addEventListener('pointerup', function () {
+      globalThis.keys.left = false;
+    });
+
+    El.buttonLeft.addEventListener('pointerleave', function () {
+      globalThis.keys.left = false;
+    });
+
+    El.buttonLeft.addEventListener('pointercancel', function () {
+      globalThis.keys.left = false;
+    });
+
+    El.buttonRight.addEventListener("click", function () {
+      globalThis.keys.right = true;
+
+      setTimeout(function () {
+        globalThis.keys.right = false;
+      }, 100);
+    });
+
+    El.buttonRight.addEventListener('pointerdown', function () {
+      globalThis.keys.right = true;
+    });
+
+    El.buttonRight.addEventListener('pointerup', function () {
+      globalThis.keys.right = false;
+    });
+
+    El.buttonRight.addEventListener('pointerleave', function () {
+      globalThis.keys.right = false;
+    });
+
+    El.buttonRight.addEventListener('pointercancel', function () {
+      globalThis.keys.right = false;
+    });
   },
   showGameData: function showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;

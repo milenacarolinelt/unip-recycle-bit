@@ -12,9 +12,9 @@ import Projectile from "./Projectile.js";
 class Player {
     constructor(canvasWidth, canvasHeight) {
         this.alive = true;
-        this.width = 48 * 2;
-        this.height = 48 * 2;
-        this.velocity = 6;
+        this.width = 34 * 2;
+        this.height = 34 * 2;
+        this.velocity = 5;
 
         this.position = {
             x: canvasWidth / 2 - this.width / 2,
@@ -58,7 +58,7 @@ class Player {
             this.width,
             this.height
         );
-        
+
         // ctx.drawImage(
         //     this.arrowLeft,
         //     this.position.leftX,
@@ -66,7 +66,7 @@ class Player {
         //     80,
         //     80
         // );
-        
+
         // ctx.drawImage(
         //     this.arrowRight,
         //     this.position.rightX - 80,
@@ -125,7 +125,7 @@ class Player {
             projectile.position.x <= this.position.x + 20 + this.width - 38 &&
             projectile.position.y + projectile.height >= this.position.y + 22 &&
             projectile.position.y + projectile.height <=
-                this.position.y + 22 + this.height - 34
+            this.position.y + 22 + this.height - 34
         );
     }
 }

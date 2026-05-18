@@ -374,6 +374,9 @@ canvas.game-start {
 .score-ui .score-infos .other-user {
   text-align: right;
 }
+.score-ui .score-infos .life {
+  padding-bottom: 5px;
+}
 
 .hide {
   display: none;
