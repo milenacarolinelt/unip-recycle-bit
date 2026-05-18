@@ -341,17 +341,38 @@ canvas.game-start {
   color: #fff;
   width: 100%;
   text-align: center;
-  padding: 40px;
+  padding: 25px 15px 40px;
   text-transform: uppercase;
   font-size: 1rem;
   display: none;
 }
-
-.score-ui > div {
+.score-ui #score-timer {
+  padding: 0 0 15px;
+  display: block;
+}
+.score-ui .score-users {
+  max-width: 100%;
   display: flex;
   justify-content: space-between;
-  max-width: 600px;
-  margin: 0 auto;
+  padding: 0 0 20px;
+}
+.score-ui .score-infos {
+  display: flex;
+  justify-content: space-between;
+}
+.score-ui .score-infos > div {
+  display: flex;
+  flex-direction: column;
+}
+.score-ui .score-infos img {
+  width: 20px;
+  height: auto;
+}
+.score-ui .score-infos .my-user {
+  text-align: left;
+}
+.score-ui .score-infos .other-user {
+  text-align: right;
 }
 
 .hide {
@@ -465,6 +486,31 @@ canvas.game-start {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.arrow-button-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
+.arrow-button-section .arrow-button {
+  width: 80px;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+}
+.arrow-button-section #arrow-left {
+  background-image: url("/images/arrow-left.png");
+}
+.arrow-button-section #arrow-right {
+  background-image: url("/images/arrow-right.png");
 }
 
 @keyframes zoom {

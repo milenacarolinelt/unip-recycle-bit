@@ -362,17 +362,46 @@ canvas {
   color: #fff;
   width: 100%;
   text-align: center;
-  padding: 40px;
+  padding: 25px 15px 40px;
   text-transform: uppercase;
   font-size: 1rem;
   display: none;
-}
 
-.score-ui>div {
-  display: flex;
-  justify-content: space-between;
-  max-width: 600px;
-  margin: 0 auto;
+  #score-timer {
+    padding: 0 0 15px;
+    display: block;
+  }
+
+  .score-users {
+    max-width:  100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 20px;
+  }
+
+  .score-infos {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    img {
+      width: 20px;
+      height: auto;
+    }
+
+    .my-user {
+      text-align: left;
+    }
+
+
+    .other-user {
+      text-align: right;
+    }
+  }
 }
 
 .hide {
@@ -509,6 +538,34 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.arrow-button-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+
+  .arrow-button {
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+  }
+
+  #arrow-left {
+    background-image: url("/images/arrow-left.png");
+  }
+
+  #arrow-right {
+    background-image: url("/images/arrow-right.png");    
+  }
 }
 
 @keyframes zoom {

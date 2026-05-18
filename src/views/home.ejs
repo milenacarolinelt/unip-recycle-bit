@@ -1,171 +1,245 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <head>
+    <meta name="robots" content="index, follow, noodp, noydir" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-navbutton-color" content="#000000" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="stylesheet" href="/css/unip-aps-general.css" />
+    <title>Recycle Bit - Save The World</title>
+  </head>
 
-<head>
-  <meta name="robots" content="index, follow, noodp, noydir" />
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="msapplication-navbutton-color" content="#000000" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="#000000" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="stylesheet" href="/css/unip-aps-general.css" />
-  <title>Recycle Bit - Save The World</title>
-</head>
-
-<body class="aps-adb-home">
-  <main>
-    <section class="score-ui">
-      <div class="score-users">
-        <span class="my-user">meu usuário: <span>mikpudim</span></span>
-        <span class="other-user">meu usuário: <span>anabanana</span></span>
-      </div>
-      <div>
-        <span class="life">vidas: <span>3</span></span>
-        <span class="score">pontuação: <span>0</span></span>
-        <span class="level">level: <span>1</span></span>
-        <!-- <span class="high">high: <span>0</span></span> -->
-      </div>
-    </section>
-
-    <section class="start-screen screen">
-      <div>
-        <img class="recyclebit-logo" src="/images/logo.png" alt="RecycleBit - Save The World" />
-        <h1>RecycleBit</h1>
-        <h2>Save The World</h2>
-        <button class="button-my-user">Meu Usuário</button>
-        <button class="button-init-battle">Iniciar Batalha</button>
-        <button class="button-play-game">Iniciar Jogo Solo</button>
-        <button class="button-configurations">Configurações</button>
-      </div>
-    </section>
-
-    <section class="access-screen screen">
-      <div>
-        <img class="recyclebit-logo" src="/images/logo.png" alt="RecycleBit - Save The World" />
-        <form class="form">
-          <div class="form_container">
-            <label for="access-username" class="form_label">Usuário</label>
-            <input type="text" name="access-username" id="access-username" class="form_input" />
+  <body class="aps-adb-home">
+    <main>
+      <section class="score-ui">
+        <span id="score-timer">00:00</span>
+        <div class="score-users">
+          <span class="my-user"><span>mikpudim</span></span>
+          <span class="other-user"><span>anabanana</span></span>
+        </div>
+        <div class="score-infos">
+          <div class="my-user">
+            <span class="life">
+              <img src="/images/heart.png" alt="vidas" />
+              <span>3</span>
+            </span>
+            <span class="score">
+              <img src="/images/score.png" alt="pontuação" />
+              <span>0</span>
+            </span>
           </div>
-          <div class="form_container">
-            <label for="access-password" class="form_label">Senha</label>
-            <input type="password" name="access-password" id="access-password" class="form_input" />
+          <div class="other-user">
+            <span class="life">
+              <span>3</span>
+              <img src="/images/heart.png" alt="vidas" />
+            </span>
+            <span class="score">
+              <span>0</span>
+              <img src="/images/score.png" alt="pontuação" />
+            </span>
           </div>
-          <button type="submit" id="access-form-button">Acessar</button>
-          <button type="button" id="redirect-register-button">
-            Cadastre-se
-          </button>
-          <button type="button" class="back-menu redirect-button">
-            voltar para o menu
-          </button>
-        </form>
-      </div>
-    </section>
+          <!-- <span class="level">level: <span>1</span></span> -->
+          <!-- <span class="high">high: <span>0</span></span> -->
+        </div>
+      </section>
 
-    <section class="register-screen screen">
-      <div>
-        <img class="recyclebit-logo" src="/images/logo.png" alt="RecycleBit - Save The World" />
-        <form class="form">
-          <div class="form_container">
-            <label for="register-username" class="form_label">Usuário</label>
-            <input type="text" name="register-username" id="register-username" class="form_input" />
-          </div>
-          <div class="form_container">
-            <label for="register-email" class="form_label">E-mail</label>
-            <input type="text" name="register-email" id="register-email" class="form_input" />
-          </div>
-          <div class="form_container">
-            <label for="register-password" class="form_label">Senha</label>
-            <input type="password" name="register-password" id="register-password" class="form_input" />
-          </div>
-          <button type="submit" id="register-form-button">Cadastrar</button>
-          <button type="button" id="redirect-access-button">
-            Faça login
-          </button>
-          <button type="button" class="back-menu redirect-button">
-            voltar para o menu
-          </button>
-        </form>
-      </div>
-    </section>
+      <section class="start-screen screen">
+        <div>
+          <img
+            class="recyclebit-logo"
+            src="/images/logo.png"
+            alt="RecycleBit - Save The World"
+          />
+          <h1>RecycleBit</h1>
+          <h2>Save The World</h2>
+          <button class="button-my-user">Meu Usuário</button>
+          <button class="button-init-battle">Iniciar Batalha</button>
+          <button class="button-play-game">Iniciar Jogo Solo</button>
+          <button class="button-configurations">Configurações</button>
+        </div>
+      </section>
 
-    <section class="battle-screen screen">
-      <div class="battle-list">
-        <h1>Adversários disponíveis</h1>
-        <form class="form">
-          <div class="form_checkbox-container">
-            <div class="form_container radio">
-              <input type="radio" id="isabebel" name="battle-user" value="isabebel" />
-              <label for="isabebel"> <span></span> isabebel </label>
+      <section class="access-screen screen">
+        <div>
+          <img
+            class="recyclebit-logo"
+            src="/images/logo.png"
+            alt="RecycleBit - Save The World"
+          />
+          <form class="form">
+            <div class="form_container">
+              <label for="access-username" class="form_label">Usuário</label>
+              <input
+                type="text"
+                name="access-username"
+                id="access-username"
+                class="form_input"
+              />
             </div>
-            <div class="form_container radio">
-              <input type="radio" id="anabanana" name="battle-user" value="anabanana" />
-              <label for="anabanana"> <span></span> anabanana</label>
+            <div class="form_container">
+              <label for="access-password" class="form_label">Senha</label>
+              <input
+                type="password"
+                name="access-password"
+                id="access-password"
+                class="form_input"
+              />
             </div>
-            <div class="form_container radio">
-              <input type="radio" id="gaby" name="battle-user" value="gaby" />
-              <label for="gaby"> <span></span> gaby </label>
+            <button type="submit" id="access-form-button">Acessar</button>
+            <button type="button" id="redirect-register-button">
+              Cadastre-se
+            </button>
+            <button type="button" class="back-menu redirect-button">
+              voltar para o menu
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="register-screen screen">
+        <div>
+          <img
+            class="recyclebit-logo"
+            src="/images/logo.png"
+            alt="RecycleBit - Save The World"
+          />
+          <form class="form">
+            <div class="form_container">
+              <label for="register-username" class="form_label">Usuário</label>
+              <input
+                type="text"
+                name="register-username"
+                id="register-username"
+                class="form_input"
+              />
             </div>
-            <div class="form_container radio">
-              <input type="radio" id="bela" name="battle-user" value="bela" />
-              <label for="bela"> <span></span> bela </label>
+            <div class="form_container">
+              <label for="register-email" class="form_label">E-mail</label>
+              <input
+                type="text"
+                name="register-email"
+                id="register-email"
+                class="form_input"
+              />
+            </div>
+            <div class="form_container">
+              <label for="register-password" class="form_label">Senha</label>
+              <input
+                type="password"
+                name="register-password"
+                id="register-password"
+                class="form_input"
+              />
+            </div>
+            <button type="submit" id="register-form-button">Cadastrar</button>
+            <button type="button" id="redirect-access-button">
+              Faça login
+            </button>
+            <button type="button" class="back-menu redirect-button">
+              voltar para o menu
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="battle-screen screen">
+        <div class="battle-list">
+          <h1>Adversários disponíveis</h1>
+          <form class="form">
+            <div class="form_checkbox-container">
+              <div class="form_container radio">
+                <input
+                  type="radio"
+                  id="isabebel"
+                  name="battle-user"
+                  value="isabebel"
+                />
+                <label for="isabebel"> <span></span> isabebel </label>
+              </div>
+              <div class="form_container radio">
+                <input
+                  type="radio"
+                  id="anabanana"
+                  name="battle-user"
+                  value="anabanana"
+                />
+                <label for="anabanana"> <span></span> anabanana</label>
+              </div>
+              <div class="form_container radio">
+                <input type="radio" id="gaby" name="battle-user" value="gaby" />
+                <label for="gaby"> <span></span> gaby </label>
+              </div>
+              <div class="form_container radio">
+                <input type="radio" id="bela" name="battle-user" value="bela" />
+                <label for="bela"> <span></span> bela </label>
+              </div>
+            </div>
+            <button type="submit" class="button" id="initbattle-form-button">
+              Convidar
+            </button>
+            <button type="button" class="link-button back-menu redirect-button">
+              voltar para o menu
+            </button>
+          </form>
+        </div>
+        <div class="battle-popup waiting hide">
+          <div class="battle-popup_content">
+            <div>
+              <p>Aguarde a confirmação do seu oponente ...</p>
+              <div class="center-loader">
+                <%- include('components/loader') %>
+              </div>
             </div>
           </div>
-          <button type="submit" class="button" id="initbattle-form-button">
-            Convidar
-          </button>
-          <button type="button" class="link-button back-menu redirect-button">
-            voltar para o menu
-          </button>
-        </form>
-      </div>
-      <div class="battle-popup waiting hide">
+        </div>
+      </section>
+
+      <div class="battle-popup invitation hide">
         <div class="battle-popup_content">
           <div>
-            <p>Aguarde a confirmação do seu oponente ...</p>
-            <div class="center-loader">
-              <%- include('components/loader') %>
+            <h2>Você foi convidado para uma batalha!!</h2>
+            <p>
+              Deseja ininciar a partida com o oponente:
+              <span class="opponent-name">mikpudim</span>?
+            </p>
+            <div class="button_flex-content">
+              <button type="submit" class="button" id="initbattle-accept">
+                Aceitar
+              </button>
+              <button type="submit" class="button" id="initbattle-refuse">
+                Recusar
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <div class="battle-popup invitation hide">
-      <div class="battle-popup_content">
+      <section class="config-screen screen"></section>
+
+      <section class="game-over screen">
         <div>
-          <h2>Você foi convidado para uma batalha!!</h2>
-          <p>
-            Deseja ininciar a partida com o oponente:
-            <span class="opponent-name">mikpudim</span>?
-          </p>
-          <div class="button_flex-content">
-            <button type="submit" class="button" id="initbattle-accept">
-              Aceitar
-            </button>
-            <button type="submit" class="button" id="initbattle-refuse">
-              Recusar
-            </button>
-          </div>
+          <h1>Game Over</h1>
+          <button class="button-restart">Restart</button>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <section class="config-screen screen"></section>
+      <section class="game-screen">
+        <div class="arrow-button-section">
+          <button class="arrow-button" id="arrow-left"></button>
+          <button class="arrow-button" id="arrow-right"></button>
+        </div>
+      </section>
 
-    <section class="game-over screen">
-      <div>
-        <h1>Game Over</h1>
-        <button class="button-restart">Restart</button>
-      </div>
-    </section>
+      <canvas></canvas>
+    </main>
 
-    <canvas></canvas>
-  </main>
-
-  <script type="text/javascript" src="/js/unip-aps-general.js"></script>
-</body>
-
+    <script type="text/javascript" src="/js/unip-aps-general.js"></script>
+  </body>
 </html>

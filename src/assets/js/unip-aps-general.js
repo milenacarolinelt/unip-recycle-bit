@@ -8,6 +8,7 @@ import { GameState, NUMBER_STARS } from "../../utils/constants.js";
 
 const El = {
   canvas: document.querySelector("canvas"),
+  gameScreen: document.querySelector(".game-screen"),
   startScreen: document.querySelector(".start-screen"),
   accessScreen: document.querySelector(".access-screen"),
   registerScreen: document.querySelector(".register-screen"),
@@ -30,11 +31,12 @@ const El = {
 
 const Methods = {
   init() {
-    El.accessScreen.classList.add('hide');
-    El.registerScreen.classList.add('hide');
-    El.gameOverScreen.classList.add('hide');
-    El.configScreen.classList.add('hide');
-    El.battleScreen.classList.add('hide');
+    El.gameScreen.classList.add("hide");
+    El.accessScreen.classList.add("hide");
+    El.registerScreen.classList.add("hide");
+    El.gameOverScreen.classList.add("hide");
+    El.configScreen.classList.add("hide");
+    El.battleScreen.classList.add("hide");
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;
     El.canvas.height = innerHeight;
@@ -55,7 +57,7 @@ const Methods = {
     globalThis.particles = [];
     globalThis.obstacles = [];
 
-    Methods.initObstacles();
+    Methods.initArrows();
 
     globalThis.grid = new Grid(
       Math.round(Math.random() * 9 + 1),
@@ -74,19 +76,19 @@ const Methods = {
     addEventListener("keydown", (event) => {
       const key = event.key.toLowerCase();
 
-      if (key === "a") keys.left = true;
-      if (key === "d") keys.right = true;
-      if (key === "enter") keys.shoot.pressed = true;
+      if (key === "a") globalThis.keys.left = true;
+      if (key === "d") globalThis.keys.right = true;
+      if (key === "enter") globalThis.keys.shoot.pressed = true;
     });
 
     addEventListener("keyup", (event) => {
       const key = event.key.toLowerCase();
 
-      if (key === "a") keys.left = false;
-      if (key === "d") keys.right = false;
+      if (key === "a") globalThis.keys.left = false;
+      if (key === "d") globalThis.keys.right = false;
       if (key === "enter") {
-        keys.shoot.pressed = false;
-        keys.shoot.released = true;
+        globalThis.keys.shoot.pressed = false;
+        globalThis.keys.shoot.released = true;
       }
     });
 
@@ -96,54 +98,55 @@ const Methods = {
     });
 
     El.buttonPlay.addEventListener("click", () => {
-      El.startScreen.classList.add('hide');
+      El.startScreen.classList.add("hide");
+      El.gameScreen.classList.remove("hide");
       El.scoreUi.style.display = "block";
       globalThis.currentState = GameState.PLAYING;
 
       globalThis.soundEffects.playGameStartSound();
-      setInterval(() => {
-        const invader = globalThis.grid.getRandomInvader();
+      // setInterval(() => {
+      //   const invader = globalThis.grid.getRandomInvader();
 
-        if (invader) {
-          invader.shoot(globalThis.invadersProjectiles);
-        }
-      }, 1000);
-      El.canvas.classList.add('game-start');
+      //   if (invader) {
+      //     invader.shoot(globalThis.invadersProjectiles);
+      //   }
+      // }, 1000);
+      El.canvas.classList.add("game-start");
     });
 
     El.buttonConfig.addEventListener("click", () => {
-      El.startScreen.classList.add('hide');
-      El.configScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.configScreen.classList.remove("hide");
     });
 
     El.buttonInitBattle.addEventListener("click", () => {
-      El.startScreen.classList.add('hide');
-      El.battleScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.battleScreen.classList.remove("hide");
     });
 
     El.buttonMyUser.addEventListener("click", () => {
-      El.startScreen.classList.add('hide');
-      El.accessScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.accessScreen.classList.remove("hide");
     });
 
     El.buttonRedirectRegister.addEventListener("click", () => {
-      El.startScreen.classList.add('hide');
-      El.accessScreen.classList.add('hide');
-      El.registerScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.accessScreen.classList.add("hide");
+      El.registerScreen.classList.remove("hide");
     });
 
     El.buttonRedirectAccess.addEventListener("click", () => {
-      El.startScreen.classList.add('hide');
-      El.registerScreen.classList.add('hide');
-      El.accessScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.registerScreen.classList.add("hide");
+      El.accessScreen.classList.remove("hide");
     });
 
-    [...El.buttonBackMenu].forEach(backButton => {
+    [...El.buttonBackMenu].forEach((backButton) => {
       backButton.addEventListener("click", () => {
-        El.startScreen.classList.remove('hide');
-        El.registerScreen.classList.add('hide');
-        El.battleScreen.classList.add('hide');
-        El.accessScreen.classList.add('hide');
+        El.startScreen.classList.remove("hide");
+        El.registerScreen.classList.add("hide");
+        El.battleScreen.classList.add("hide");
+        El.accessScreen.classList.add("hide");
       });
     });
 
@@ -155,20 +158,20 @@ const Methods = {
 
   showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
-    El.levelElement.textContent = globalThis.gameData.level;
+    // El.levelElement.textContent = globalThis.gameData.level;
     // El.highElement.textContent = globalThis.gameData.high;
   },
 
-  initObstacles() {
+  initArrows() {
     const x = El.canvas.width / 2 - 50;
-    const y = El.canvas.height - 250;
+    const y = El.canvas.height - 150;
     const offset = El.canvas.width * 0.15;
     const color = "crimson";
 
     const obstacle1 = new Obstacle({ x: x - offset, y }, 100, 20, color);
     const obstacle2 = new Obstacle({ x: x + offset, y }, 100, 20, color);
 
-    globalThis.obstacles.push(obstacle1, obstacle2);
+    // globalThis.obstacles.push(obstacle1, obstacle2);
   },
 
   incrementScore(value) {
@@ -199,7 +202,7 @@ const Methods = {
   drawProjectiles() {
     const projectiles = [
       ...globalThis.playerProjectiles,
-      ...globalThis.invadersProjectiles,
+      // ...globalThis.invadersProjectiles,
     ];
 
     projectiles.forEach((projectile) => {
@@ -269,29 +272,25 @@ const Methods = {
   },
 
   checkShootInvaders() {
-    globalThis.grid.invaders.forEach((invader, invaderIndex) => {
-      globalThis.playerProjectiles.some((projectile, projectileIndex) => {
-        if (invader.hit(projectile)) {
-          globalThis.soundEffects.playHitSound();
-
-          Methods.createExplosion(
-            {
-              x: invader.position.x + invader.width / 2,
-              y: invader.position.y + invader.height / 2,
-            },
-            10,
-            "#941CFF",
-          );
-
-          Methods.incrementScore(10);
-
-          globalThis.grid.invaders.splice(invaderIndex, 1);
-          globalThis.playerProjectiles.splice(projectileIndex, 1);
-
-          return;
-        }
-      });
-    });
+    // globalThis.grid.invaders.forEach((invader, invaderIndex) => {
+    //   globalThis.playerProjectiles.some((projectile, projectileIndex) => {
+    //     if (invader.hit(projectile)) {
+    //       globalThis.soundEffects.playHitSound();
+    //       Methods.createExplosion(
+    //         {
+    //           x: invader.position.x + invader.width / 2,
+    //           y: invader.position.y + invader.height / 2,
+    //         },
+    //         10,
+    //         "#941CFF",
+    //       );
+    //       Methods.incrementScore(10);
+    //       globalThis.grid.invaders.splice(invaderIndex, 1);
+    //       globalThis.playerProjectiles.splice(projectileIndex, 1);
+    //       return;
+    //     }
+    //   });
+    // });
   },
 
   showGameOverScreen() {
@@ -362,41 +361,38 @@ const Methods = {
   },
 
   checkInvadersCollidedObstacles() {
-    globalThis.obstacles.forEach((obstacle, i) => {
-      globalThis.grid.invaders.some((invader) => {
-        if (invader.collided(obstacle)) {
-          globalThis.obstacles.splice(i, 1);
-        }
-      });
-    });
+    // globalThis.obstacles.forEach((obstacle, i) => {
+    //   globalThis.grid.invaders.some((invader) => {
+    //     if (invader.collided(obstacle)) {
+    //       globalThis.obstacles.splice(i, 1);
+    //     }
+    //   });
+    // });
   },
 
   checkPlayerCollidedInvaders() {
-    globalThis.grid.invaders.some((invader) => {
-      if (
-        invader.position.x >= globalThis.player.position.x &&
-        invader.position.x <=
-        globalThis.player.position.x + globalThis.player.width &&
-        invader.position.y >= globalThis.player.position.y
-      ) {
-        Methods.gameOver();
-      }
-    });
+    // globalThis.grid.invaders.some((invader) => {
+    //   if (
+    //     invader.position.x >= globalThis.player.position.x &&
+    //     invader.position.x <=
+    //     globalThis.player.position.x + globalThis.player.width &&
+    //     invader.position.y >= globalThis.player.position.y
+    //   ) {
+    //     Methods.gameOver();
+    //   }
+    // });
   },
 
   spawnGrid() {
     if (globalThis.grid.invaders.length === 0) {
-      globalThis.soundEffects.playNextLevelSound();
-
-      globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
-      globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
-      globalThis.grid.restart();
-
-      Methods.incrementLevel();
-
-      if (globalThis.obstacles.length === 0) {
-        Methods.initObstacles();
-      }
+      // globalThis.soundEffects.playNextLevelSound();
+      // globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
+      // globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
+      // globalThis.grid.restart();
+      // Methods.incrementLevel();
+      // if (globalThis.obstacles.length === 0) {
+      //   Methods.initArrows();
+      // }
     }
   },
 
@@ -422,8 +418,8 @@ const Methods = {
       Methods.checkInvadersCollidedObstacles();
       Methods.checkPlayerCollidedInvaders();
 
-      globalThis.grid.draw(globalThis.ctx);
-      globalThis.grid.update(globalThis.player.alive);
+      // globalThis.grid.draw(globalThis.ctx);
+      // globalThis.grid.update(globalThis.player.alive);
 
       globalThis.ctx.save();
 
@@ -446,7 +442,7 @@ const Methods = {
       if (
         globalThis.keys.right &&
         globalThis.player.position.x <=
-        El.canvas.width - globalThis.player.width
+          El.canvas.width - globalThis.player.width
       ) {
         globalThis.player.moveRight();
         globalThis.ctx.rotate(0.15);
@@ -471,8 +467,8 @@ const Methods = {
       Methods.clearProjectiles();
       Methods.clearParticles();
 
-      globalThis.grid.draw(globalThis.ctx);
-      globalThis.grid.update(globalThis.player.alive);
+      // globalThis.grid.draw(globalThis.ctx);
+      // globalThis.grid.update(globalThis.player.alive);
     }
 
     requestAnimationFrame(Methods.gameLoop);
@@ -483,14 +479,14 @@ const Methods = {
 
     globalThis.player.alive = true;
 
-    globalThis.grid.invaders.length = 0;
-    globalThis.grid.invadersVelocity = 1;
+    // globalThis.grid.invaders.length = 0;
+    // globalThis.grid.invadersVelocity = 1;
 
     globalThis.invadersProjectiles.length = 0;
     globalThis.gameData.score = 0;
     globalThis.gameData.level = 0;
 
-    El.gameOverScreen.classList.add('hide');
+    El.gameOverScreen.classList.add("hide");
   },
 };
 

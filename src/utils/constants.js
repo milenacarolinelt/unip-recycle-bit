@@ -1,4 +1,7 @@
-export const PATH_SPACESHIP_IMAGE = "/images/spaceship.png";
+export const PATH_GARBAGE_IMAGE = "/images/garbage_can.png";
+export const PATH_ARROWLEFT_IMAGE = "/images/arrow-left.png";
+export const PATH_ARROWRIGHT_IMAGE = "/images/arrow-right.png";
+
 export const PATH_ENGINE_IMAGE = "/images/engine.png";
 export const PATH_ENGINE_SPRITES = "/images/engine_sprites.png";
 export const PATH_INVADER_IMAGE = "/images/invader.png";

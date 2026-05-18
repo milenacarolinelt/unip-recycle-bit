@@ -325,12 +325,19 @@ var Player = function () {
 
         this.position = {
             x: canvasWidth / 2 - this.width / 2,
-            y: canvasHeight - this.height - 30
+            y: canvasHeight - this.height - 30,
+            arrowY: canvasHeight - this.height + 20,
+            leftX: 0,
+            rightX: canvasWidth
         };
 
-        this.image = this.getImage(_constants.PATH_SPACESHIP_IMAGE);
+        console.log(this.position);
+
+        this.image = this.getImage(_constants.PATH_GARBAGE_IMAGE);
         this.engineImage = this.getImage(_constants.PATH_ENGINE_IMAGE);
         this.engineSprites = this.getImage(_constants.PATH_ENGINE_SPRITES);
+        this.arrowLeft = this.getImage(_constants.PATH_ARROWLEFT_IMAGE);
+        this.arrowRight = this.getImage(_constants.PATH_ARROWRIGHT_IMAGE);
 
         this.sx = 0;
         this.framesCounter = _constants.INITIAL_FRAMES;
@@ -358,9 +365,41 @@ var Player = function () {
         value: function draw(ctx) {
             ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
 
-            ctx.drawImage(this.engineSprites, this.sx, 0, 48, 48, this.position.x, this.position.y + 10, this.width, this.height);
+            // ctx.drawImage(
+            //     this.arrowLeft,
+            //     this.position.leftX,
+            //     this.position.arrowY,
+            //     80,
+            //     80
+            // );
 
-            ctx.drawImage(this.engineImage, this.position.x, this.position.y + 8, this.width, this.height);
+            // ctx.drawImage(
+            //     this.arrowRight,
+            //     this.position.rightX - 80,
+            //     this.position.arrowY,
+            //     80,
+            //     80
+            // );
+
+            // ctx.drawImage(
+            //     this.engineSprites,
+            //     this.sx,
+            //     0,
+            //     48,
+            //     48,
+            //     this.position.x,
+            //     this.position.y + 10,
+            //     this.width,
+            //     this.height
+            // );
+
+            // ctx.drawImage(
+            //     this.engineImage,
+            //     this.position.x,
+            //     this.position.y + 8,
+            //     this.width,
+            //     this.height
+            // );
 
             this.update();
         }
@@ -604,6 +643,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var El = {
   canvas: document.querySelector("canvas"),
+  gameScreen: document.querySelector(".game-screen"),
   startScreen: document.querySelector(".start-screen"),
   accessScreen: document.querySelector(".access-screen"),
   registerScreen: document.querySelector(".register-screen"),
@@ -626,11 +666,12 @@ var El = {
 
 var Methods = {
   init: function init() {
-    El.accessScreen.classList.add('hide');
-    El.registerScreen.classList.add('hide');
-    El.gameOverScreen.classList.add('hide');
-    El.configScreen.classList.add('hide');
-    El.battleScreen.classList.add('hide');
+    El.gameScreen.classList.add("hide");
+    El.accessScreen.classList.add("hide");
+    El.registerScreen.classList.add("hide");
+    El.gameOverScreen.classList.add("hide");
+    El.configScreen.classList.add("hide");
+    El.battleScreen.classList.add("hide");
     globalThis.ctx = El.canvas.getContext("2d");
     El.canvas.width = innerWidth;
     El.canvas.height = innerHeight;
@@ -651,7 +692,7 @@ var Methods = {
     globalThis.particles = [];
     globalThis.obstacles = [];
 
-    Methods.initObstacles();
+    Methods.initArrows();
 
     globalThis.grid = new _Grid2.default(Math.round(Math.random() * 9 + 1), Math.round(Math.random() * 9 + 1));
 
@@ -667,19 +708,19 @@ var Methods = {
     addEventListener("keydown", function (event) {
       var key = event.key.toLowerCase();
 
-      if (key === "a") keys.left = true;
-      if (key === "d") keys.right = true;
-      if (key === "enter") keys.shoot.pressed = true;
+      if (key === "a") globalThis.keys.left = true;
+      if (key === "d") globalThis.keys.right = true;
+      if (key === "enter") globalThis.keys.shoot.pressed = true;
     });
 
     addEventListener("keyup", function (event) {
       var key = event.key.toLowerCase();
 
-      if (key === "a") keys.left = false;
-      if (key === "d") keys.right = false;
+      if (key === "a") globalThis.keys.left = false;
+      if (key === "d") globalThis.keys.right = false;
       if (key === "enter") {
-        keys.shoot.pressed = false;
-        keys.shoot.released = true;
+        globalThis.keys.shoot.pressed = false;
+        globalThis.keys.shoot.released = true;
       }
     });
 
@@ -689,54 +730,55 @@ var Methods = {
     });
 
     El.buttonPlay.addEventListener("click", function () {
-      El.startScreen.classList.add('hide');
+      El.startScreen.classList.add("hide");
+      El.gameScreen.classList.remove("hide");
       El.scoreUi.style.display = "block";
       globalThis.currentState = _constants.GameState.PLAYING;
 
       globalThis.soundEffects.playGameStartSound();
-      setInterval(function () {
-        var invader = globalThis.grid.getRandomInvader();
+      // setInterval(() => {
+      //   const invader = globalThis.grid.getRandomInvader();
 
-        if (invader) {
-          invader.shoot(globalThis.invadersProjectiles);
-        }
-      }, 1000);
-      El.canvas.classList.add('game-start');
+      //   if (invader) {
+      //     invader.shoot(globalThis.invadersProjectiles);
+      //   }
+      // }, 1000);
+      El.canvas.classList.add("game-start");
     });
 
     El.buttonConfig.addEventListener("click", function () {
-      El.startScreen.classList.add('hide');
-      El.configScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.configScreen.classList.remove("hide");
     });
 
     El.buttonInitBattle.addEventListener("click", function () {
-      El.startScreen.classList.add('hide');
-      El.battleScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.battleScreen.classList.remove("hide");
     });
 
     El.buttonMyUser.addEventListener("click", function () {
-      El.startScreen.classList.add('hide');
-      El.accessScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.accessScreen.classList.remove("hide");
     });
 
     El.buttonRedirectRegister.addEventListener("click", function () {
-      El.startScreen.classList.add('hide');
-      El.accessScreen.classList.add('hide');
-      El.registerScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.accessScreen.classList.add("hide");
+      El.registerScreen.classList.remove("hide");
     });
 
     El.buttonRedirectAccess.addEventListener("click", function () {
-      El.startScreen.classList.add('hide');
-      El.registerScreen.classList.add('hide');
-      El.accessScreen.classList.remove('hide');
+      El.startScreen.classList.add("hide");
+      El.registerScreen.classList.add("hide");
+      El.accessScreen.classList.remove("hide");
     });
 
     [].concat(_toConsumableArray(El.buttonBackMenu)).forEach(function (backButton) {
       backButton.addEventListener("click", function () {
-        El.startScreen.classList.remove('hide');
-        El.registerScreen.classList.add('hide');
-        El.battleScreen.classList.add('hide');
-        El.accessScreen.classList.add('hide');
+        El.startScreen.classList.remove("hide");
+        El.registerScreen.classList.add("hide");
+        El.battleScreen.classList.add("hide");
+        El.accessScreen.classList.add("hide");
       });
     });
 
@@ -747,19 +789,19 @@ var Methods = {
   },
   showGameData: function showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
-    El.levelElement.textContent = globalThis.gameData.level;
+    // El.levelElement.textContent = globalThis.gameData.level;
     // El.highElement.textContent = globalThis.gameData.high;
   },
-  initObstacles: function initObstacles() {
+  initArrows: function initArrows() {
     var x = El.canvas.width / 2 - 50;
-    var y = El.canvas.height - 250;
+    var y = El.canvas.height - 150;
     var offset = El.canvas.width * 0.15;
     var color = "crimson";
 
     var obstacle1 = new _Obstacle2.default({ x: x - offset, y: y }, 100, 20, color);
     var obstacle2 = new _Obstacle2.default({ x: x + offset, y: y }, 100, 20, color);
 
-    globalThis.obstacles.push(obstacle1, obstacle2);
+    // globalThis.obstacles.push(obstacle1, obstacle2);
   },
   incrementScore: function incrementScore(value) {
     globalThis.gameData.score += value;
@@ -783,7 +825,7 @@ var Methods = {
     });
   },
   drawProjectiles: function drawProjectiles() {
-    var projectiles = [].concat(_toConsumableArray(globalThis.playerProjectiles), _toConsumableArray(globalThis.invadersProjectiles));
+    var projectiles = [].concat(_toConsumableArray(globalThis.playerProjectiles));
 
     projectiles.forEach(function (projectile) {
       projectile.draw(globalThis.ctx);
@@ -842,25 +884,25 @@ var Methods = {
     }
   },
   checkShootInvaders: function checkShootInvaders() {
-    globalThis.grid.invaders.forEach(function (invader, invaderIndex) {
-      globalThis.playerProjectiles.some(function (projectile, projectileIndex) {
-        if (invader.hit(projectile)) {
-          globalThis.soundEffects.playHitSound();
-
-          Methods.createExplosion({
-            x: invader.position.x + invader.width / 2,
-            y: invader.position.y + invader.height / 2
-          }, 10, "#941CFF");
-
-          Methods.incrementScore(10);
-
-          globalThis.grid.invaders.splice(invaderIndex, 1);
-          globalThis.playerProjectiles.splice(projectileIndex, 1);
-
-          return;
-        }
-      });
-    });
+    // globalThis.grid.invaders.forEach((invader, invaderIndex) => {
+    //   globalThis.playerProjectiles.some((projectile, projectileIndex) => {
+    //     if (invader.hit(projectile)) {
+    //       globalThis.soundEffects.playHitSound();
+    //       Methods.createExplosion(
+    //         {
+    //           x: invader.position.x + invader.width / 2,
+    //           y: invader.position.y + invader.height / 2,
+    //         },
+    //         10,
+    //         "#941CFF",
+    //       );
+    //       Methods.incrementScore(10);
+    //       globalThis.grid.invaders.splice(invaderIndex, 1);
+    //       globalThis.playerProjectiles.splice(projectileIndex, 1);
+    //       return;
+    //     }
+    //   });
+    // });
   },
   showGameOverScreen: function showGameOverScreen() {
     El.gameOverScreen.classList.remove("hide");
@@ -914,34 +956,36 @@ var Methods = {
     });
   },
   checkInvadersCollidedObstacles: function checkInvadersCollidedObstacles() {
-    globalThis.obstacles.forEach(function (obstacle, i) {
-      globalThis.grid.invaders.some(function (invader) {
-        if (invader.collided(obstacle)) {
-          globalThis.obstacles.splice(i, 1);
-        }
-      });
-    });
+    // globalThis.obstacles.forEach((obstacle, i) => {
+    //   globalThis.grid.invaders.some((invader) => {
+    //     if (invader.collided(obstacle)) {
+    //       globalThis.obstacles.splice(i, 1);
+    //     }
+    //   });
+    // });
   },
   checkPlayerCollidedInvaders: function checkPlayerCollidedInvaders() {
-    globalThis.grid.invaders.some(function (invader) {
-      if (invader.position.x >= globalThis.player.position.x && invader.position.x <= globalThis.player.position.x + globalThis.player.width && invader.position.y >= globalThis.player.position.y) {
-        Methods.gameOver();
-      }
-    });
+    // globalThis.grid.invaders.some((invader) => {
+    //   if (
+    //     invader.position.x >= globalThis.player.position.x &&
+    //     invader.position.x <=
+    //     globalThis.player.position.x + globalThis.player.width &&
+    //     invader.position.y >= globalThis.player.position.y
+    //   ) {
+    //     Methods.gameOver();
+    //   }
+    // });
   },
   spawnGrid: function spawnGrid() {
     if (globalThis.grid.invaders.length === 0) {
-      globalThis.soundEffects.playNextLevelSound();
-
-      globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
-      globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
-      globalThis.grid.restart();
-
-      Methods.incrementLevel();
-
-      if (globalThis.obstacles.length === 0) {
-        Methods.initObstacles();
-      }
+      // globalThis.soundEffects.playNextLevelSound();
+      // globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
+      // globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
+      // globalThis.grid.restart();
+      // Methods.incrementLevel();
+      // if (globalThis.obstacles.length === 0) {
+      //   Methods.initArrows();
+      // }
     }
   },
   gameLoop: function gameLoop() {
@@ -966,8 +1010,8 @@ var Methods = {
       Methods.checkInvadersCollidedObstacles();
       Methods.checkPlayerCollidedInvaders();
 
-      globalThis.grid.draw(globalThis.ctx);
-      globalThis.grid.update(globalThis.player.alive);
+      // globalThis.grid.draw(globalThis.ctx);
+      // globalThis.grid.update(globalThis.player.alive);
 
       globalThis.ctx.save();
 
@@ -1005,8 +1049,8 @@ var Methods = {
       Methods.clearProjectiles();
       Methods.clearParticles();
 
-      globalThis.grid.draw(globalThis.ctx);
-      globalThis.grid.update(globalThis.player.alive);
+      // globalThis.grid.draw(globalThis.ctx);
+      // globalThis.grid.update(globalThis.player.alive);
     }
 
     requestAnimationFrame(Methods.gameLoop);
@@ -1016,14 +1060,14 @@ var Methods = {
 
     globalThis.player.alive = true;
 
-    globalThis.grid.invaders.length = 0;
-    globalThis.grid.invadersVelocity = 1;
+    // globalThis.grid.invaders.length = 0;
+    // globalThis.grid.invadersVelocity = 1;
 
     globalThis.invadersProjectiles.length = 0;
     globalThis.gameData.score = 0;
     globalThis.gameData.level = 0;
 
-    El.gameOverScreen.classList.add('hide');
+    El.gameOverScreen.classList.add("hide");
   }
 };
 
@@ -1035,7 +1079,10 @@ globalThis.addEventListener("DOMContentLoaded", Methods.init);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var PATH_SPACESHIP_IMAGE = exports.PATH_SPACESHIP_IMAGE = "/images/spaceship.png";
+var PATH_GARBAGE_IMAGE = exports.PATH_GARBAGE_IMAGE = "/images/garbage_can.png";
+var PATH_ARROWLEFT_IMAGE = exports.PATH_ARROWLEFT_IMAGE = "/images/arrow-left.png";
+var PATH_ARROWRIGHT_IMAGE = exports.PATH_ARROWRIGHT_IMAGE = "/images/arrow-right.png";
+
 var PATH_ENGINE_IMAGE = exports.PATH_ENGINE_IMAGE = "/images/engine.png";
 var PATH_ENGINE_SPRITES = exports.PATH_ENGINE_SPRITES = "/images/engine_sprites.png";
 var PATH_INVADER_IMAGE = exports.PATH_INVADER_IMAGE = "/images/invader.png";

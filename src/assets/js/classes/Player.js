@@ -1,8 +1,10 @@
 import {
     INITIAL_FRAMES,
+    PATH_ARROWLEFT_IMAGE,
+    PATH_ARROWRIGHT_IMAGE,
     PATH_ENGINE_IMAGE,
     PATH_ENGINE_SPRITES,
-    PATH_SPACESHIP_IMAGE,
+    PATH_GARBAGE_IMAGE,
 } from "../../../utils/constants.js";
 
 import Projectile from "./Projectile.js";
@@ -17,11 +19,18 @@ class Player {
         this.position = {
             x: canvasWidth / 2 - this.width / 2,
             y: canvasHeight - this.height - 30,
+            arrowY: canvasHeight - this.height + 20,
+            leftX: 0,
+            rightX: canvasWidth,
         };
 
-        this.image = this.getImage(PATH_SPACESHIP_IMAGE);
+        console.log(this.position);
+
+        this.image = this.getImage(PATH_GARBAGE_IMAGE);
         this.engineImage = this.getImage(PATH_ENGINE_IMAGE);
         this.engineSprites = this.getImage(PATH_ENGINE_SPRITES);
+        this.arrowLeft = this.getImage(PATH_ARROWLEFT_IMAGE);
+        this.arrowRight = this.getImage(PATH_ARROWRIGHT_IMAGE);
 
         this.sx = 0;
         this.framesCounter = INITIAL_FRAMES;
@@ -49,26 +58,42 @@ class Player {
             this.width,
             this.height
         );
+        
+        // ctx.drawImage(
+        //     this.arrowLeft,
+        //     this.position.leftX,
+        //     this.position.arrowY,
+        //     80,
+        //     80
+        // );
+        
+        // ctx.drawImage(
+        //     this.arrowRight,
+        //     this.position.rightX - 80,
+        //     this.position.arrowY,
+        //     80,
+        //     80
+        // );
 
-        ctx.drawImage(
-            this.engineSprites,
-            this.sx,
-            0,
-            48,
-            48,
-            this.position.x,
-            this.position.y + 10,
-            this.width,
-            this.height
-        );
+        // ctx.drawImage(
+        //     this.engineSprites,
+        //     this.sx,
+        //     0,
+        //     48,
+        //     48,
+        //     this.position.x,
+        //     this.position.y + 10,
+        //     this.width,
+        //     this.height
+        // );
 
-        ctx.drawImage(
-            this.engineImage,
-            this.position.x,
-            this.position.y + 8,
-            this.width,
-            this.height
-        );
+        // ctx.drawImage(
+        //     this.engineImage,
+        //     this.position.x,
+        //     this.position.y + 8,
+        //     this.width,
+        //     this.height
+        // );
 
         this.update();
     }
