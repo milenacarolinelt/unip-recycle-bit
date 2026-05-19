@@ -205,48 +205,7 @@ var Invader = function () {
 
 exports.default = Invader;
 
-},{"../../../utils/constants.js":10,"./Projectile.js":6}],3:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Obstacle = function () {
-    function Obstacle(position, width, height, color) {
-        _classCallCheck(this, Obstacle);
-
-        this.position = position;
-        this.width = width;
-        this.height = height;
-        this.color = color;
-    }
-
-    _createClass(Obstacle, [{
-        key: "draw",
-        value: function draw(ctx) {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-        }
-    }, {
-        key: "hit",
-        value: function hit(projectile) {
-            var projectilePositionY = projectile.velocity < 0 ? projectile.position.y : projectile.position.y + projectile.height;
-
-            return projectile.position.x >= this.position.x && projectile.position.x <= this.position.x + this.width && projectilePositionY >= this.position.y && projectilePositionY <= this.position.y + this.height;
-        }
-    }]);
-
-    return Obstacle;
-}();
-
-exports.default = Obstacle;
-
-},{}],4:[function(require,module,exports){
+},{"../../../utils/constants.js":10,"./Projectile.js":5}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -295,7 +254,7 @@ var Particle = function () {
 
 exports.default = Particle;
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -435,7 +394,7 @@ var Player = function () {
 
 exports.default = Player;
 
-},{"../../../utils/constants.js":10,"./Projectile.js":6}],6:[function(require,module,exports){
+},{"../../../utils/constants.js":10,"./Projectile.js":5}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -474,7 +433,7 @@ var Projectile = function () {
 
 exports.default = Projectile;
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -552,7 +511,7 @@ var SoundEffects = function () {
 
 exports.default = SoundEffects;
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -608,16 +567,79 @@ var Star = function () {
 
 exports.default = Star;
 
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Trash = function () {
+  function Trash(canvasWidth) {
+    _classCallCheck(this, Trash);
+
+    this.x = Math.random() * canvasWidth;
+
+    // começa acima da tela
+    this.y = -50;
+
+    this.size = 20 + Math.random() * 40;
+
+    // velocidade aleatória
+    this.speed = 2 + Math.random() * 4;
+
+    this.color = "hsl(" + Math.random() * 360 + ", 80%, 50%)";
+  }
+
+  _createClass(Trash, [{
+    key: "init",
+    value: function init() {
+      var array = [];
+
+      for (var row = 0; row < this.rows; row += 1) {
+        for (var col = 0; col < this.cols; col += 1) {
+          var invader = new Invader({
+            x: col * 50 + 20,
+            y: row * 37 + 120
+          }, this.invadersVelocity);
+
+          array.push(invader);
+        }
+      }
+
+      return array;
+    }
+  }, {
+    key: "draw",
+    value: function draw(ctx) {
+      ctx.fillStyle = this.color;
+
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      this.y += this.speed;
+    }
+  }]);
+
+  return Trash;
+}();
+
+exports.default = Trash;
+
 },{}],9:[function(require,module,exports){
 "use strict";
 
 var _Grid = require("./classes/Grid.js");
 
 var _Grid2 = _interopRequireDefault(_Grid);
-
-var _Obstacle = require("./classes/Obstacle.js");
-
-var _Obstacle2 = _interopRequireDefault(_Obstacle);
 
 var _Particle = require("./classes/Particle.js");
 
@@ -634,6 +656,10 @@ var _SoundEffects2 = _interopRequireDefault(_SoundEffects);
 var _Star = require("./classes/Star.js");
 
 var _Star2 = _interopRequireDefault(_Star);
+
+var _Trash = require("./classes/Trash.js");
+
+var _Trash2 = _interopRequireDefault(_Trash);
 
 var _constants = require("../../utils/constants.js");
 
@@ -694,10 +720,9 @@ var Methods = {
     globalThis.invadersProjectiles = [];
     globalThis.particles = [];
     globalThis.obstacles = [];
+    globalThis.trash = [];
 
-    Methods.initArrows();
-
-    globalThis.grid = new _Grid2.default(Math.round(Math.random() * 9 + 1), Math.round(Math.random() * 9 + 1));
+    globalThis.grid = new _Grid2.default(1, Math.round(Math.random() * 9 + 1));
 
     globalThis.keys = {
       left: false,
@@ -720,14 +745,13 @@ var Methods = {
       globalThis.currentState = _constants.GameState.PLAYING;
 
       globalThis.soundEffects.playGameStartSound();
-      // setInterval(() => {
-      //   const invader = globalThis.grid.getRandomInvader();
-
-      //   if (invader) {
-      //     invader.shoot(globalThis.invadersProjectiles);
-      //   }
-      // }, 1000);
       El.canvas.classList.add("game-start");
+      var duration = 60 * 5; // Converter para segundos
+      var display = document.querySelector("#score-timer"); // selecionando o timer
+      Methods.startTimer(duration, display); // iniciando o timer
+      globalThis.trashInterval = setInterval(function () {
+        globalThis.trash.push(new _Trash2.default(El.canvas.width));
+      }, 1000);
     });
 
     El.buttonConfig.addEventListener("click", function () {
@@ -771,6 +795,21 @@ var Methods = {
     Methods.generateStars();
     Methods.gameLoop();
   },
+  startTimer: function startTimer(duration, display) {
+    var timer = duration,
+        minutes = void 0,
+        seconds = void 0;
+    setInterval(function () {
+      minutes = Number.parseInt(timer / 60, 10);
+      seconds = Number.parseInt(timer % 60, 10);
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      display.textContent = minutes + ":" + seconds;
+      if (--timer < 0) {
+        timer = duration;
+      }
+    }, 1000);
+  },
   controlActions: function controlActions() {
     addEventListener("keydown", function (event) {
       if (!event.key) return;
@@ -801,19 +840,19 @@ var Methods = {
       }, 100);
     });
 
-    El.buttonLeft.addEventListener('pointerdown', function () {
+    El.buttonLeft.addEventListener("pointerdown", function () {
       globalThis.keys.left = true;
     });
 
-    El.buttonLeft.addEventListener('pointerup', function () {
+    El.buttonLeft.addEventListener("pointerup", function () {
       globalThis.keys.left = false;
     });
 
-    El.buttonLeft.addEventListener('pointerleave', function () {
+    El.buttonLeft.addEventListener("pointerleave", function () {
       globalThis.keys.left = false;
     });
 
-    El.buttonLeft.addEventListener('pointercancel', function () {
+    El.buttonLeft.addEventListener("pointercancel", function () {
       globalThis.keys.left = false;
     });
 
@@ -825,37 +864,24 @@ var Methods = {
       }, 100);
     });
 
-    El.buttonRight.addEventListener('pointerdown', function () {
+    El.buttonRight.addEventListener("pointerdown", function () {
       globalThis.keys.right = true;
     });
 
-    El.buttonRight.addEventListener('pointerup', function () {
+    El.buttonRight.addEventListener("pointerup", function () {
       globalThis.keys.right = false;
     });
 
-    El.buttonRight.addEventListener('pointerleave', function () {
+    El.buttonRight.addEventListener("pointerleave", function () {
       globalThis.keys.right = false;
     });
 
-    El.buttonRight.addEventListener('pointercancel', function () {
+    El.buttonRight.addEventListener("pointercancel", function () {
       globalThis.keys.right = false;
     });
   },
   showGameData: function showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
-    // El.levelElement.textContent = globalThis.gameData.level;
-    // El.highElement.textContent = globalThis.gameData.high;
-  },
-  initArrows: function initArrows() {
-    var x = El.canvas.width / 2 - 50;
-    var y = El.canvas.height - 150;
-    var offset = El.canvas.width * 0.15;
-    var color = "crimson";
-
-    var obstacle1 = new _Obstacle2.default({ x: x - offset, y: y }, 100, 20, color);
-    var obstacle2 = new _Obstacle2.default({ x: x + offset, y: y }, 100, 20, color);
-
-    // globalThis.obstacles.push(obstacle1, obstacle2);
   },
   incrementScore: function incrementScore(value) {
     globalThis.gameData.score += value;
@@ -879,7 +905,7 @@ var Methods = {
     });
   },
   drawProjectiles: function drawProjectiles() {
-    var projectiles = [].concat(_toConsumableArray(globalThis.playerProjectiles));
+    var projectiles = [].concat(_toConsumableArray(globalThis.playerProjectiles), _toConsumableArray(globalThis.invadersProjectiles));
 
     projectiles.forEach(function (projectile) {
       projectile.draw(globalThis.ctx);
@@ -938,25 +964,21 @@ var Methods = {
     }
   },
   checkShootInvaders: function checkShootInvaders() {
-    // globalThis.grid.invaders.forEach((invader, invaderIndex) => {
-    //   globalThis.playerProjectiles.some((projectile, projectileIndex) => {
-    //     if (invader.hit(projectile)) {
-    //       globalThis.soundEffects.playHitSound();
-    //       Methods.createExplosion(
-    //         {
-    //           x: invader.position.x + invader.width / 2,
-    //           y: invader.position.y + invader.height / 2,
-    //         },
-    //         10,
-    //         "#941CFF",
-    //       );
-    //       Methods.incrementScore(10);
-    //       globalThis.grid.invaders.splice(invaderIndex, 1);
-    //       globalThis.playerProjectiles.splice(projectileIndex, 1);
-    //       return;
-    //     }
-    //   });
-    // });
+    globalThis.grid.invaders.forEach(function (invader, invaderIndex) {
+      globalThis.playerProjectiles.some(function (projectile, projectileIndex) {
+        if (invader.hit(projectile)) {
+          globalThis.soundEffects.playHitSound();
+          Methods.createExplosion({
+            x: invader.position.x + invader.width / 2,
+            y: invader.position.y + invader.height / 2
+          }, 10, "#941CFF");
+          Methods.incrementScore(10);
+          globalThis.grid.invaders.splice(invaderIndex, 1);
+          globalThis.playerProjectiles.splice(projectileIndex, 1);
+          return;
+        }
+      });
+    });
   },
   showGameOverScreen: function showGameOverScreen() {
     El.gameOverScreen.classList.remove("hide");
@@ -1010,36 +1032,31 @@ var Methods = {
     });
   },
   checkInvadersCollidedObstacles: function checkInvadersCollidedObstacles() {
-    // globalThis.obstacles.forEach((obstacle, i) => {
-    //   globalThis.grid.invaders.some((invader) => {
-    //     if (invader.collided(obstacle)) {
-    //       globalThis.obstacles.splice(i, 1);
-    //     }
-    //   });
-    // });
+    globalThis.obstacles.forEach(function (obstacle, i) {
+      globalThis.grid.invaders.some(function (invader) {
+        if (invader.collided(obstacle)) {
+          globalThis.obstacles.splice(i, 1);
+        }
+      });
+    });
   },
   checkPlayerCollidedInvaders: function checkPlayerCollidedInvaders() {
-    // globalThis.grid.invaders.some((invader) => {
-    //   if (
-    //     invader.position.x >= globalThis.player.position.x &&
-    //     invader.position.x <=
-    //     globalThis.player.position.x + globalThis.player.width &&
-    //     invader.position.y >= globalThis.player.position.y
-    //   ) {
-    //     Methods.gameOver();
-    //   }
-    // });
+    globalThis.grid.invaders.some(function (invader) {
+      if (invader.position.x >= globalThis.player.position.x && invader.position.x <= globalThis.player.position.x + globalThis.player.width && invader.position.y >= globalThis.player.position.y) {
+        Methods.gameOver();
+      }
+    });
   },
   spawnGrid: function spawnGrid() {
     if (globalThis.grid.invaders.length === 0) {
-      // globalThis.soundEffects.playNextLevelSound();
-      // globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
-      // globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
-      // globalThis.grid.restart();
-      // Methods.incrementLevel();
-      // if (globalThis.obstacles.length === 0) {
-      //   Methods.initArrows();
-      // }
+      globalThis.soundEffects.playNextLevelSound();
+      globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
+      globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
+      globalThis.grid.restart();
+      Methods.incrementLevel();
+      if (globalThis.obstacles.length === 0) {
+        Methods.initArrows();
+      }
     }
   },
   gameLoop: function gameLoop() {
@@ -1089,6 +1106,17 @@ var Methods = {
 
       globalThis.ctx.translate(-globalThis.player.position.x - globalThis.player.width / 2, -globalThis.player.position.y - globalThis.player.height / 2);
 
+      ctx.clearRect(0, 0, El.canvas.width, El.canvas.height);
+      for (var i = 0; i < globalThis.trash.length; i++) {
+        globalThis.trash[i].update();
+        globalThis.trash[i].draw(globalThis.ctx);
+        // remove quando sair da tela
+        if (globalThis.trash[i].y > El.canvas.height + 100) {
+          globalThis.trash.splice(i, 1);
+          i--;
+        }
+      }
+
       globalThis.player.draw(globalThis.ctx);
       globalThis.ctx.restore();
     }
@@ -1103,6 +1131,8 @@ var Methods = {
       Methods.clearProjectiles();
       Methods.clearParticles();
 
+      clearInterval(globalThis.trashInterval);
+
       // globalThis.grid.draw(globalThis.ctx);
       // globalThis.grid.update(globalThis.player.alive);
     }
@@ -1114,8 +1144,8 @@ var Methods = {
 
     globalThis.player.alive = true;
 
-    // globalThis.grid.invaders.length = 0;
-    // globalThis.grid.invadersVelocity = 1;
+    globalThis.grid.invaders.length = 0;
+    globalThis.grid.invadersVelocity = 1;
 
     globalThis.invadersProjectiles.length = 0;
     globalThis.gameData.score = 0;
@@ -1127,7 +1157,7 @@ var Methods = {
 
 globalThis.addEventListener("DOMContentLoaded", Methods.init);
 
-},{"../../utils/constants.js":10,"./classes/Grid.js":1,"./classes/Obstacle.js":3,"./classes/Particle.js":4,"./classes/Player.js":5,"./classes/SoundEffects.js":7,"./classes/Star.js":8}],10:[function(require,module,exports){
+},{"../../utils/constants.js":10,"./classes/Grid.js":1,"./classes/Particle.js":3,"./classes/Player.js":4,"./classes/SoundEffects.js":6,"./classes/Star.js":7,"./classes/Trash.js":8}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1136,6 +1166,15 @@ Object.defineProperty(exports, "__esModule", {
 var PATH_GARBAGE_IMAGE = exports.PATH_GARBAGE_IMAGE = "/images/garbage_can.png";
 var PATH_ARROWLEFT_IMAGE = exports.PATH_ARROWLEFT_IMAGE = "/images/arrow-left.png";
 var PATH_ARROWRIGHT_IMAGE = exports.PATH_ARROWRIGHT_IMAGE = "/images/arrow-right.png";
+
+var PATH_ORGANIC_IMAGE = exports.PATH_ORGANIC_IMAGE = "/images/trash/apple.png";
+var PATH_METAL_IMAGE = exports.PATH_METAL_IMAGE = "/Zimages/trash/can_soda.png";
+var PATH_GLASS_IMAGE = exports.PATH_GLASS_IMAGE = "/images/trash/glass.png";
+var PATH_PAPER_IMAGE = exports.PATH_PAPER_IMAGE = "/images/trash/newspaper.png";
+var PATH_PLASTIC_IMAGE = exports.PATH_PLASTIC_IMAGE = "/images/trash/plastic_bottle.png";
+
+var PATH_BATTERY_IMAGE = exports.PATH_BATTERY_IMAGE = "/images/trash/not/battery.png";
+var PATH_LAMP_IMAGE = exports.PATH_LAMP_IMAGE = "/images/trash/not/lamp.png";
 
 var PATH_ENGINE_IMAGE = exports.PATH_ENGINE_IMAGE = "/images/engine.png";
 var PATH_ENGINE_SPRITES = exports.PATH_ENGINE_SPRITES = "/images/engine_sprites.png";

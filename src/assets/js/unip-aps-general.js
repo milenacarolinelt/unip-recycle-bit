@@ -1,9 +1,9 @@
 import Grid from "./classes/Grid.js";
-import Obstacle from "./classes/Obstacle.js";
 import Particle from "./classes/Particle.js";
 import Player from "./classes/Player.js";
 import SoundEffects from "./classes/SoundEffects.js";
 import Star from "./classes/Star.js";
+import Trash from "./classes/Trash.js";
 import { GameState, NUMBER_STARS } from "../../utils/constants.js";
 
 const El = {
@@ -59,11 +59,10 @@ const Methods = {
     globalThis.invadersProjectiles = [];
     globalThis.particles = [];
     globalThis.obstacles = [];
-
-    Methods.initArrows();
+    globalThis.trash = [];
 
     globalThis.grid = new Grid(
-      Math.round(Math.random() * 9 + 1),
+      1,
       Math.round(Math.random() * 9 + 1),
     );
 
@@ -88,14 +87,13 @@ const Methods = {
       globalThis.currentState = GameState.PLAYING;
 
       globalThis.soundEffects.playGameStartSound();
-      // setInterval(() => {
-      //   const invader = globalThis.grid.getRandomInvader();
-
-      //   if (invader) {
-      //     invader.shoot(globalThis.invadersProjectiles);
-      //   }
-      // }, 1000);
       El.canvas.classList.add("game-start");
+      let duration = 60 * 5; // Converter para segundos
+      let display = document.querySelector("#score-timer"); // selecionando o timer
+      Methods.startTimer(duration, display); // iniciando o timer
+      globalThis.trashInterval = setInterval(() => {
+        globalThis.trash.push(new Trash(El.canvas.width));
+      }, 1000);
     });
 
     El.buttonConfig.addEventListener("click", () => {
@@ -140,6 +138,22 @@ const Methods = {
     Methods.gameLoop();
   },
 
+  startTimer(duration, display) {
+    let timer = duration,
+      minutes,
+      seconds;
+    setInterval(function () {
+      minutes = Number.parseInt(timer / 60, 10);
+      seconds = Number.parseInt(timer % 60, 10);
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      display.textContent = minutes + ":" + seconds;
+      if (--timer < 0) {
+        timer = duration;
+      }
+    }, 1000);
+  },
+
   controlActions() {
     addEventListener("keydown", (event) => {
       if (!event.key) return;
@@ -170,19 +184,19 @@ const Methods = {
       }, 100);
     });
 
-    El.buttonLeft.addEventListener('pointerdown', () => {
+    El.buttonLeft.addEventListener("pointerdown", () => {
       globalThis.keys.left = true;
     });
 
-    El.buttonLeft.addEventListener('pointerup', () => {
+    El.buttonLeft.addEventListener("pointerup", () => {
       globalThis.keys.left = false;
     });
 
-    El.buttonLeft.addEventListener('pointerleave', () => {
+    El.buttonLeft.addEventListener("pointerleave", () => {
       globalThis.keys.left = false;
     });
 
-    El.buttonLeft.addEventListener('pointercancel', () => {
+    El.buttonLeft.addEventListener("pointercancel", () => {
       globalThis.keys.left = false;
     });
 
@@ -194,41 +208,27 @@ const Methods = {
       }, 100);
     });
 
-    El.buttonRight.addEventListener('pointerdown', () => {
+    El.buttonRight.addEventListener("pointerdown", () => {
       globalThis.keys.right = true;
     });
 
-    El.buttonRight.addEventListener('pointerup', () => {
+    El.buttonRight.addEventListener("pointerup", () => {
       globalThis.keys.right = false;
     });
 
-    El.buttonRight.addEventListener('pointerleave', () => {
+    El.buttonRight.addEventListener("pointerleave", () => {
       globalThis.keys.right = false;
     });
 
-    El.buttonRight.addEventListener('pointercancel', () => {
+    El.buttonRight.addEventListener("pointercancel", () => {
       globalThis.keys.right = false;
     });
   },
 
   showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
-    // El.levelElement.textContent = globalThis.gameData.level;
-    // El.highElement.textContent = globalThis.gameData.high;
   },
-
-  initArrows() {
-    const x = El.canvas.width / 2 - 50;
-    const y = El.canvas.height - 150;
-    const offset = El.canvas.width * 0.15;
-    const color = "crimson";
-
-    const obstacle1 = new Obstacle({ x: x - offset, y }, 100, 20, color);
-    const obstacle2 = new Obstacle({ x: x + offset, y }, 100, 20, color);
-
-    // globalThis.obstacles.push(obstacle1, obstacle2);
-  },
-
+  
   incrementScore(value) {
     globalThis.gameData.score += value;
 
@@ -257,7 +257,7 @@ const Methods = {
   drawProjectiles() {
     const projectiles = [
       ...globalThis.playerProjectiles,
-      // ...globalThis.invadersProjectiles,
+      ...globalThis.invadersProjectiles,
     ];
 
     projectiles.forEach((projectile) => {
@@ -327,25 +327,25 @@ const Methods = {
   },
 
   checkShootInvaders() {
-    // globalThis.grid.invaders.forEach((invader, invaderIndex) => {
-    //   globalThis.playerProjectiles.some((projectile, projectileIndex) => {
-    //     if (invader.hit(projectile)) {
-    //       globalThis.soundEffects.playHitSound();
-    //       Methods.createExplosion(
-    //         {
-    //           x: invader.position.x + invader.width / 2,
-    //           y: invader.position.y + invader.height / 2,
-    //         },
-    //         10,
-    //         "#941CFF",
-    //       );
-    //       Methods.incrementScore(10);
-    //       globalThis.grid.invaders.splice(invaderIndex, 1);
-    //       globalThis.playerProjectiles.splice(projectileIndex, 1);
-    //       return;
-    //     }
-    //   });
-    // });
+    globalThis.grid.invaders.forEach((invader, invaderIndex) => {
+      globalThis.playerProjectiles.some((projectile, projectileIndex) => {
+        if (invader.hit(projectile)) {
+          globalThis.soundEffects.playHitSound();
+          Methods.createExplosion(
+            {
+              x: invader.position.x + invader.width / 2,
+              y: invader.position.y + invader.height / 2,
+            },
+            10,
+            "#941CFF",
+          );
+          Methods.incrementScore(10);
+          globalThis.grid.invaders.splice(invaderIndex, 1);
+          globalThis.playerProjectiles.splice(projectileIndex, 1);
+          return;
+        }
+      });
+    });
   },
 
   showGameOverScreen() {
@@ -416,38 +416,38 @@ const Methods = {
   },
 
   checkInvadersCollidedObstacles() {
-    // globalThis.obstacles.forEach((obstacle, i) => {
-    //   globalThis.grid.invaders.some((invader) => {
-    //     if (invader.collided(obstacle)) {
-    //       globalThis.obstacles.splice(i, 1);
-    //     }
-    //   });
-    // });
+    globalThis.obstacles.forEach((obstacle, i) => {
+      globalThis.grid.invaders.some((invader) => {
+        if (invader.collided(obstacle)) {
+          globalThis.obstacles.splice(i, 1);
+        }
+      });
+    });
   },
 
   checkPlayerCollidedInvaders() {
-    // globalThis.grid.invaders.some((invader) => {
-    //   if (
-    //     invader.position.x >= globalThis.player.position.x &&
-    //     invader.position.x <=
-    //     globalThis.player.position.x + globalThis.player.width &&
-    //     invader.position.y >= globalThis.player.position.y
-    //   ) {
-    //     Methods.gameOver();
-    //   }
-    // });
+    globalThis.grid.invaders.some((invader) => {
+      if (
+        invader.position.x >= globalThis.player.position.x &&
+        invader.position.x <=
+        globalThis.player.position.x + globalThis.player.width &&
+        invader.position.y >= globalThis.player.position.y
+      ) {
+        Methods.gameOver();
+      }
+    });
   },
 
   spawnGrid() {
     if (globalThis.grid.invaders.length === 0) {
-      // globalThis.soundEffects.playNextLevelSound();
-      // globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
-      // globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
-      // globalThis.grid.restart();
-      // Methods.incrementLevel();
-      // if (globalThis.obstacles.length === 0) {
-      //   Methods.initArrows();
-      // }
+      globalThis.soundEffects.playNextLevelSound();
+      globalThis.grid.rows = Math.round(Math.random() * 9 + 1);
+      globalThis.grid.cols = Math.round(Math.random() * 9 + 1);
+      globalThis.grid.restart();
+      Methods.incrementLevel();
+      if (globalThis.obstacles.length === 0) {
+        Methods.initArrows();
+      }
     }
   },
 
@@ -497,7 +497,7 @@ const Methods = {
       if (
         globalThis.keys.right &&
         globalThis.player.position.x <=
-        El.canvas.width - globalThis.player.width
+          El.canvas.width - globalThis.player.width
       ) {
         globalThis.player.moveRight();
         globalThis.ctx.rotate(0.15);
@@ -507,6 +507,17 @@ const Methods = {
         -globalThis.player.position.x - globalThis.player.width / 2,
         -globalThis.player.position.y - globalThis.player.height / 2,
       );
+
+      ctx.clearRect(0, 0, El.canvas.width, El.canvas.height);
+      for (let i = 0; i < globalThis.trash.length; i++) {
+        globalThis.trash[i].update();
+        globalThis.trash[i].draw(globalThis.ctx);
+        // remove quando sair da tela
+        if (globalThis.trash[i].y > El.canvas.height + 100) {
+          globalThis.trash.splice(i, 1);
+          i--;
+        }
+      }
 
       globalThis.player.draw(globalThis.ctx);
       globalThis.ctx.restore();
@@ -522,6 +533,8 @@ const Methods = {
       Methods.clearProjectiles();
       Methods.clearParticles();
 
+      clearInterval(globalThis.trashInterval);
+
       // globalThis.grid.draw(globalThis.ctx);
       // globalThis.grid.update(globalThis.player.alive);
     }
@@ -534,8 +547,8 @@ const Methods = {
 
     globalThis.player.alive = true;
 
-    // globalThis.grid.invaders.length = 0;
-    // globalThis.grid.invadersVelocity = 1;
+    globalThis.grid.invaders.length = 0;
+    globalThis.grid.invadersVelocity = 1;
 
     globalThis.invadersProjectiles.length = 0;
     globalThis.gameData.score = 0;
