@@ -228,7 +228,7 @@ const Methods = {
   showGameData() {
     El.scoreElement.textContent = globalThis.gameData.score;
   },
-  
+
   incrementScore(value) {
     globalThis.gameData.score += value;
 
@@ -483,24 +483,24 @@ const Methods = {
         globalThis.player.position.y + globalThis.player.height / 2,
       );
 
-      if (globalThis.keys.shoot.pressed && globalThis.keys.shoot.released) {
-        globalThis.soundEffects.playShootSound();
-        globalThis.player.shoot(globalThis.playerProjectiles);
-        globalThis.keys.shoot.released = false;
-      }
+      // if (globalThis.keys.shoot.pressed && globalThis.keys.shoot.released) {
+      //   globalThis.soundEffects.playShootSound();
+      //   globalThis.player.shoot(globalThis.playerProjectiles);
+      //   globalThis.keys.shoot.released = false;
+      // }
 
       if (globalThis.keys.left && globalThis.player.position.x >= 0) {
         globalThis.player.moveLeft();
-        globalThis.ctx.rotate(-0.15);
+        // globalThis.ctx.rotate(-0.15);
       }
 
       if (
         globalThis.keys.right &&
         globalThis.player.position.x <=
-          El.canvas.width - globalThis.player.width
+        El.canvas.width - globalThis.player.width
       ) {
         globalThis.player.moveRight();
-        globalThis.ctx.rotate(0.15);
+        // globalThis.ctx.rotate(0.15);
       }
 
       globalThis.ctx.translate(
@@ -508,7 +508,7 @@ const Methods = {
         -globalThis.player.position.y - globalThis.player.height / 2,
       );
 
-      ctx.clearRect(0, 0, El.canvas.width, El.canvas.height);
+      // ctx.clearRect(0, 0, El.canvas.width, El.canvas.height);
       for (let i = 0; i < globalThis.trash.length; i++) {
         globalThis.trash[i].update();
         globalThis.trash[i].draw(globalThis.ctx);

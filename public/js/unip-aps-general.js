@@ -284,19 +284,12 @@ var Player = function () {
 
         this.position = {
             x: canvasWidth / 2 - this.width / 2,
-            y: canvasHeight - this.height - 30,
-            arrowY: canvasHeight - this.height + 20,
-            leftX: 0,
-            rightX: canvasWidth
+            y: canvasHeight - this.height - 30
         };
-
-        console.log(this.position);
 
         this.image = this.getImage(_constants.PATH_GARBAGE_IMAGE);
         this.engineImage = this.getImage(_constants.PATH_ENGINE_IMAGE);
         this.engineSprites = this.getImage(_constants.PATH_ENGINE_SPRITES);
-        this.arrowLeft = this.getImage(_constants.PATH_ARROWLEFT_IMAGE);
-        this.arrowRight = this.getImage(_constants.PATH_ARROWRIGHT_IMAGE);
 
         this.sx = 0;
         this.framesCounter = _constants.INITIAL_FRAMES;
@@ -323,43 +316,6 @@ var Player = function () {
         key: "draw",
         value: function draw(ctx) {
             ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
-
-            // ctx.drawImage(
-            //     this.arrowLeft,
-            //     this.position.leftX,
-            //     this.position.arrowY,
-            //     80,
-            //     80
-            // );
-
-            // ctx.drawImage(
-            //     this.arrowRight,
-            //     this.position.rightX - 80,
-            //     this.position.arrowY,
-            //     80,
-            //     80
-            // );
-
-            // ctx.drawImage(
-            //     this.engineSprites,
-            //     this.sx,
-            //     0,
-            //     48,
-            //     48,
-            //     this.position.x,
-            //     this.position.y + 10,
-            //     this.width,
-            //     this.height
-            // );
-
-            // ctx.drawImage(
-            //     this.engineImage,
-            //     this.position.x,
-            //     this.position.y + 8,
-            //     this.width,
-            //     this.height
-            // );
-
             this.update();
         }
     }, {
@@ -576,51 +532,37 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _constants = require("../../../utils/constants.js");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Trash = function () {
   function Trash(canvasWidth) {
     _classCallCheck(this, Trash);
 
+    this.image = this.getImage(_constants.PATH_GLASS_IMAGE);
     this.x = Math.random() * canvasWidth;
 
     // começa acima da tela
     this.y = -50;
 
-    this.size = 20 + Math.random() * 40;
+    this.size = 40;
 
     // velocidade aleatória
     this.speed = 2 + Math.random() * 4;
-
-    this.color = "hsl(" + Math.random() * 360 + ", 80%, 50%)";
   }
 
   _createClass(Trash, [{
-    key: "init",
-    value: function init() {
-      var array = [];
-
-      for (var row = 0; row < this.rows; row += 1) {
-        for (var col = 0; col < this.cols; col += 1) {
-          var invader = new Invader({
-            x: col * 50 + 20,
-            y: row * 37 + 120
-          }, this.invadersVelocity);
-
-          array.push(invader);
-        }
-      }
-
-      return array;
-    }
-  }, {
     key: "draw",
     value: function draw(ctx) {
-      ctx.fillStyle = this.color;
-
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.drawImage(this.image, this.x, this.y, this.size, this.size);
+    }
+  }, {
+    key: "getImage",
+    value: function getImage(path) {
+      var image = new Image();
+      image.src = path;
+      return image;
     }
   }, {
     key: "update",
@@ -634,7 +576,7 @@ var Trash = function () {
 
 exports.default = Trash;
 
-},{}],9:[function(require,module,exports){
+},{"../../../utils/constants.js":10}],9:[function(require,module,exports){
 "use strict";
 
 var _Grid = require("./classes/Grid.js");
@@ -1088,25 +1030,25 @@ var Methods = {
 
       globalThis.ctx.translate(globalThis.player.position.x + globalThis.player.width / 2, globalThis.player.position.y + globalThis.player.height / 2);
 
-      if (globalThis.keys.shoot.pressed && globalThis.keys.shoot.released) {
-        globalThis.soundEffects.playShootSound();
-        globalThis.player.shoot(globalThis.playerProjectiles);
-        globalThis.keys.shoot.released = false;
-      }
+      // if (globalThis.keys.shoot.pressed && globalThis.keys.shoot.released) {
+      //   globalThis.soundEffects.playShootSound();
+      //   globalThis.player.shoot(globalThis.playerProjectiles);
+      //   globalThis.keys.shoot.released = false;
+      // }
 
       if (globalThis.keys.left && globalThis.player.position.x >= 0) {
         globalThis.player.moveLeft();
-        globalThis.ctx.rotate(-0.15);
+        // globalThis.ctx.rotate(-0.15);
       }
 
       if (globalThis.keys.right && globalThis.player.position.x <= El.canvas.width - globalThis.player.width) {
         globalThis.player.moveRight();
-        globalThis.ctx.rotate(0.15);
+        // globalThis.ctx.rotate(0.15);
       }
 
       globalThis.ctx.translate(-globalThis.player.position.x - globalThis.player.width / 2, -globalThis.player.position.y - globalThis.player.height / 2);
 
-      ctx.clearRect(0, 0, El.canvas.width, El.canvas.height);
+      // ctx.clearRect(0, 0, El.canvas.width, El.canvas.height);
       for (var i = 0; i < globalThis.trash.length; i++) {
         globalThis.trash[i].update();
         globalThis.trash[i].draw(globalThis.ctx);
